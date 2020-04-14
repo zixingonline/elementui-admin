@@ -1,0 +1,68 @@
+@baseColor: #409EFF;
+@successColor: #67C23A;
+@warnColor: #E6A23C;
+@dangerColor: #F56C6C;
+@infoColor: #909399;
+@baseShadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+@darkShadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+
+.examples {
+	margin: 0 0 32px;
+	
+	&-title {
+		padding: 10px 0 20px;
+		font-size: 20px;
+		font-weight: bold;
+	}
+}
+
+
+
+.flex {
+	display: flex;
+}
+.flex-center {
+	.flex;
+	align-items: center;
+	justify-content: center;
+}
+.flex-between {
+	.flex;
+	justify-content: space-between;
+}
+
+
+.el {
+	&-container {
+		flex: 1;
+		// background: #f0f2f5;
+	}
+
+	&-header {
+		padding-left: 0;
+		background: #FFF;
+		box-shadow: @baseShadow;
+	}
+
+	&-aside {
+		background: #304156;
+		transition: width ease-in-out 150ms;
+	}
+
+	&-menu {
+		border: none;
+	}
+}
+
+.header {
+	align-items: center;
+	height: 60px;
+}
+
+.aside {
+	&-switch {
+		padding: 0 20px;
+		height: 100%;
+		font-size: 20px;
+	}
+}

@@ -1,0 +1,52 @@
+a, html, legend {
+    color:#333;
+}
+html {
+    background:#FFF;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+blockquote, body, button, code, dd, div, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, input, legend, li, ol, p, pre, strong, td, textarea, th, ul {
+    font-size: 14px;
+    padding:0;
+    margin:0;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+table {
+    border-collapse:collapse;
+    border-spacing:0
+}
+fieldset, img {
+    border:0
+}
+a {
+    text-decoration:none;
+    outline:0;
+    -webkit-tap-highlight-color:rgba(255, 255, 255, 0)
+}
+caption, strong, th {
+    font-style:inherit;
+    font-weight:inherit
+}
+li {
+    list-style:none
+}
+caption, th {
+    text-align:left
+}
+h1, h2, h3, h4 {
+    font-weight:400;
+    line-height:1
+}
+button, input, option, select {
+    font-family:inherit;
+    font-size:inherit;
+    font-style:inherit;
+    font-weight:inherit
+}
+.clearfix:after {
+    display:block;
+    content:"\200B";
+    height:0;
+    overflow:hidden;
+    clear:both
+}
