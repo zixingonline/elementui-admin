@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 	// 正常路由配置
 import Index from '@/views/Index'	
+import Login from '@/views/Public/login'	
 import Home from '@/views/Home/index'	
 import Table from '@/views/Table/index'	
 		
@@ -25,7 +26,11 @@ export default new VueRouter({
 					component: Table
 				}
 			]
-		},
+		}, {
+			path: "/login",
+			name: "login",
+			component: Login
+		}
 	]
 })
 

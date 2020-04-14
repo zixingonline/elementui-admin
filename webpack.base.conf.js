@@ -97,6 +97,7 @@ module.exports = {
         alias:{
             //用@直接指引到src目录下，如：'./src/main'可以写成、'@/main'
             '@': path.resolve(__dirname,'./src'),
+            '@js': path.resolve(__dirname, './src/static/js'),
             'vue$':'vue/dist/vue.esm.js',	// 解决webpack渲染.vue文件报错的Runtime版本
         }
     },
