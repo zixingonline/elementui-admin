@@ -8,7 +8,7 @@ let REQUEST_URL;
 if (process.env.NODE_ENV === 'production') {		// 生产环境配置
 	REQUEST_URL = '';
 } else {											// 开发环境配置
-	REQUEST_URL = '';
+	REQUEST_URL = '/api';
 }
 
 export default {

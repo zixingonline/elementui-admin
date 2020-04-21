@@ -3,7 +3,7 @@ import qs from 'qs'
 import GLOBAL from '@/static/js/global'				// 引入全局变量配置文件
 import Router from '@/router/index'					// 引入路由对象
 import utils from '@/static/js/utils'				// 引入工具对象
-// import { MessageBox, Indicator } from 'mint-ui';
+import { Message } from 'element-ui';
 
 let baseUrl = GLOBAL.REQUEST_URL;
 
@@ -101,12 +101,16 @@ axios.interceptors.response.use((response) => {
 	return Promise.reject(err);
 });
 
-export function post(url,data = {}){				// 重写 POST 方法
+
+
+
+export function post(url,params = {}){				// 重写 POST 方法
    	return new Promise((resolve,reject) => {
-     	axios.post(url, data)
+     	axios.post(url, params)
 		.then(response => {
 			resolve(response);
 		},err => {
+            console.log(err);
 			reject(err)
 			// MessageBox({
 			// 	title: "提示",
@@ -114,4 +118,46 @@ export function post(url,data = {}){				// 重写 POST 方法
 			// })
 		})
    	})
+}
+
+export function put(url,params={}){
+    return new Promise((resolve,reject) => {
+        axios.put(url, params)
+        .then(response => {
+            resolve(response);
+        },err => {
+            console.log(err);
+            reject(err)
+            // MessageBox({
+            //  title: "提示",
+            //  message: err.message
+            // })
+        })
+    })
+}
+
+
+export function fetch(url,params={}){
+    return new Promise ((resolve,reject) =>{
+        axios.get(url,{params:params}).then(response => {
+            resolve (response)
+        })
+        .catch(error => { 
+            console.log(err);
+            reject(error) 
+        })
+    })
+}
+
+
+export function fetchDelete(url,params={}){
+    return new Promise ((resolve,reject) =>{
+        axios.delete(url,{params:params}).then(response => {
+            resolve (response)
+        })
+        .catch(error => { 
+            console.log(err);
+            reject(error) 
+        })
+    })
 }

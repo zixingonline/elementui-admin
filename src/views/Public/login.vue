@@ -19,6 +19,7 @@
 	</div>
 </template>
 <script>
+	import { login } from '@/api/user'
 	import utils from '@js/utils'
 	import { loginRule } from '@js/validRules'
 	
@@ -44,19 +45,25 @@
 				this.$refs.ruleForm.validate((valid) => {
 					if (valid) {
 						this.loading = true;
-		        		setTimeout(() => {
-		        			this.loading = false;
-		        			utils.setStorage('token', 'aaaabbb');
 
-		    				let path;
-		    				if (this.$route.query.redirect) {
-		    					path = this.$route.query.redirect;
-		    				} else {
-		    					path = "/";
-		    				}
+						login(this.form)
+							.then((res) => {
+								console.log(res);
+							})
 
-							this.$router.replace({path: path});
-		        		}, 2000)
+		     //    		setTimeout(() => {
+		     //    			this.loading = false;
+		     //    			utils.setStorage('token', 'aaaabbb');
+
+		    	// 			let path;
+		    	// 			if (this.$route.query.redirect) {
+		    	// 				path = this.$route.query.redirect;
+		    	// 			} else {
+		    	// 				path = "/";
+		    	// 			}
+
+							// this.$router.replace({path: path});
+		     //    		}, 2000)
 					} else {
 						return false;
 					}
