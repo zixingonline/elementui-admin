@@ -7,10 +7,10 @@ module.exports = merge(baseConfig, {
 		contentBase: './dist',
 		proxy: {					// 设置代理、跨域请求
 		    '/api': {
-				target: 'http://testyjj.byl999.com',
+				target: 'http://test.yesnbst.com',
 				changeOrigin: true,
 				pathRewrite: {
-					'^/api': '/app'
+					'^/api': '/'
 				}
 			}
 		}

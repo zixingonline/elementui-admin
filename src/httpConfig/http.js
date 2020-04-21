@@ -4,6 +4,7 @@ import GLOBAL from '@/static/js/global'				// 引入全局变量配置文件
 import Router from '@/router/index'					// 引入路由对象
 import utils from '@/static/js/utils'				// 引入工具对象
 import { Message } from 'element-ui';
+import { Loading } from 'element-ui';
 
 let baseUrl = GLOBAL.REQUEST_URL;
 
@@ -15,6 +16,7 @@ axios.defaults.baseURL = baseUrl;  // 默认地址
 
 
 const ls = window.localStorage;
+let loading;
 	//添加请求拦截器
 axios.interceptors.request.use((config) => {
 	if (!config.headers['Content-Type']) {
@@ -28,9 +30,7 @@ axios.interceptors.request.use((config) => {
 	    }
     };
 
-	// Indicator.open({
-	// 	spinnerType: 'fading-circle'
-	// });
+    loading = Loading.service();
 
 	return config;
 }, function(error){
@@ -40,7 +40,7 @@ axios.interceptors.request.use((config) => {
 
 	//添加响应拦截器
 axios.interceptors.response.use((response) => {
-	// Indicator.close();
+	loading.close();
 
 	// Response 拦截器代码start
 	// ...
@@ -108,6 +108,16 @@ export function post(url,params = {}){				// 重写 POST 方法
    	return new Promise((resolve,reject) => {
      	axios.post(url, params)
 		.then(response => {
+            if (response.code != 1001) {
+                Message({
+                    showClose: true,
+                    message: response.msg,
+                    type: 'error',
+                    duration: 1000
+                })
+
+                return;
+            };
 			resolve(response);
 		},err => {
             console.log(err);

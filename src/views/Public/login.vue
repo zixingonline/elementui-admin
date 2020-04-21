@@ -2,8 +2,8 @@
 	<div class="login flex-center">
 		<div class="login-form">
 			<el-form :model="form" ref="ruleForm" :rules="rules">
-				<el-form-item prop="username">
-					<el-input v-model="form.username" maxlength="32" placeholder="Username"></el-input>
+				<el-form-item prop="account">
+					<el-input v-model="form.account" maxlength="32" placeholder="account"></el-input>
 				</el-form-item>
 
 				<el-form-item prop="password">
@@ -12,7 +12,7 @@
 				</el-form-item>
 
 				<el-form-item>
-					<el-button :loading="loading" type="primary" @click="onSubmit()" class="btn-login">登录</el-button>
+					<el-button type="primary" @click="onSubmit()" class="btn-login">登录</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -22,48 +22,44 @@
 	import { login } from '@/api/user'
 	import utils from '@js/utils'
 	import { loginRule } from '@js/validRules'
+	import { Message } from 'element-ui';
 	
 	export default {
 		data () {
 			return {
 				form: {
-					username: '',
+					account: '',
 					password: '',
 				},
 				rules: loginRule,
 				passwordType: 'password',
-				loading: false,
 			}
 		},
 
 		methods: {
 			onSubmit(ruleForm) {
-				if (this.loading) {
-					return;
-				}
-
 				this.$refs.ruleForm.validate((valid) => {
 					if (valid) {
-						this.loading = true;
-
 						login(this.form)
 							.then((res) => {
 								console.log(res);
+								Message({
+				                    showClose: true,
+				                    message: '登录成功！',
+				                    type: 'success',
+				                    duration: 1000
+				                })
+				                utils.setStorage('token', res.data.token);
+				                utils.setStorage('expired', res.data.expired);
+				                let path;
+			    				if (this.$route.query.redirect) {
+			    					path = this.$route.query.redirect;
+			    				} else {
+			    					path = "/";
+			    				}
+
+								this.$router.replace({path: path});
 							})
-
-		     //    		setTimeout(() => {
-		     //    			this.loading = false;
-		     //    			utils.setStorage('token', 'aaaabbb');
-
-		    	// 			let path;
-		    	// 			if (this.$route.query.redirect) {
-		    	// 				path = this.$route.query.redirect;
-		    	// 			} else {
-		    	// 				path = "/";
-		    	// 			}
-
-							// this.$router.replace({path: path});
-		     //    		}, 2000)
 					} else {
 						return false;
 					}
