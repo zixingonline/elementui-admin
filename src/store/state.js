@@ -1,6 +1,7 @@
-const ls = window.localStorage;
+import utils from '@/static/js/utils';
+
 const state = {
-	sidebarCollapse: ls.getItem('sidebarCollapse') == undefined ? 0 : ls.getItem('sidebarCollapse'),
+	sidebarCollapse: utils.getStorage('sidebarCollapse') == undefined ? 0 : utils.getStorage('sidebarCollapse'),
 }
 
 export default state;

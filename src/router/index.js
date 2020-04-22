@@ -5,6 +5,8 @@ import VueRouter from 'vue-router'
 import Index from '@/views/Index'	
 import Login from '@/views/Public/login'	
 import Home from '@/views/Home/index'	
+import Goods from '@/views/Goods/index'	
+import GoodsEdit from '@/views/Goods/edit'	
 import Table from '@/views/Table/index'	
 		
 Vue.use(VueRouter)
@@ -24,6 +26,14 @@ export default new VueRouter({
 					path: "/table",
 					name: "table",
 					component: Table
+				},{
+					path: "/goods",
+					name: "goods",
+					component: Goods
+				},{
+					path: "/goods-edit/:id",
+					name: "goods-edit",
+					component: GoodsEdit
 				}
 			]
 		}, {

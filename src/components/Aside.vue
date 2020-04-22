@@ -43,6 +43,15 @@
 			title: "Dynamic Table",
 			route: "/table"
 		}]
+	},{
+		id: '3',
+		title: "GOODS",
+		route: "#",
+		subMenu: [{
+			id: '3-1',
+			title: "LIST",
+			route: "/goods"
+		}]
 	}]
 	export default {
 		data () {

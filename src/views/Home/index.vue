@@ -6,5 +6,8 @@
 		data () {
 			return {}
 		},
+		created () {
+			
+		}
 	}
 </script>

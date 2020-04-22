@@ -32,7 +32,7 @@
         	Aside
         },
         created () {
-            if (this.$store.state.sidebarCollapse == 1) {
+            if (this.$store.state.user.sidebarCollapse == 1) {
                 this.menuIsCollapse = true;
             } else {
                 this.menuIsCollapse = false;

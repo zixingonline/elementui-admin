@@ -27,8 +27,11 @@ Vue.use(ElementUI)
 import '@/static/css/common.less'				// 默认less文件
 import '@/static/css/reset.css'
 		
-import { post } from '@/httpConfig/http'		// axios配置 (默认重写了 { POST } 方法)
-Vue.prototype.$http = post;						
+import { post, put, fetch, fetchDelete } from '@/httpConfig/http';		// axios配置 (默认重写了 { POST } 方法)
+Vue.prototype.$post = post;						
+Vue.prototype.$put = put;						
+Vue.prototype.$fetch = fetch;						
+Vue.prototype.$fetchDelete = fetchDelete;						
 Vue.prototype.GLOBAL = global;					// 全局变量配置
 
 

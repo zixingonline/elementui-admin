@@ -19,18 +19,28 @@ const ls = window.localStorage;
 let loading;
 	//添加请求拦截器
 axios.interceptors.request.use((config) => {
-	if (!config.headers['Content-Type']) {
-		// Request 拦截器代码start
-		// ...
-		// Request 拦截器代码end
+	// Request 拦截器代码start
+	// ...
+	// Request 拦截器代码end
+     
+    let token = utils.getStorage('token');
+    if (token) {
+        if (config.method == 'post' || config.method == 'put') {
+            config.data.token = token;
+        } else if (config.method == 'get' || config.method == 'delete') {
+            config.params.token = token;
+        }  
+    }
 
-		config.data = qs.stringify(config.data);
-		config.headers = {
-	      	'Content-Type':'application/x-www-form-urlencoded'
-	    }
-    };
+	config.data = qs.stringify(config.data);
+	config.headers = {
+      	'Content-Type':'application/x-www-form-urlencoded'
+    }
 
-    loading = Loading.service();
+    loading = Loading.service({
+        background: 'rgba(0, 0, 0, 0.25)',
+        customClass: 'ele-loading'
+    });
 
 	return config;
 }, function(error){
@@ -48,7 +58,7 @@ axios.interceptors.response.use((response) => {
 
 	return response.data;
 }, function(err){
-	// Indicator.close();
+	loading.close();
 	if (err && err.response) {
         switch (err.response.status) {
             case 400:
@@ -122,10 +132,12 @@ export function post(url,params = {}){				// 重写 POST 方法
 		},err => {
             console.log(err);
 			reject(err)
-			// MessageBox({
-			// 	title: "提示",
-			// 	message: err.message
-			// })
+			Message({
+                showClose: true,
+                message: err,
+                type: 'error',
+                duration: 1000
+            })
 		})
    	})
 }
@@ -138,10 +150,12 @@ export function put(url,params={}){
         },err => {
             console.log(err);
             reject(err)
-            // MessageBox({
-            //  title: "提示",
-            //  message: err.message
-            // })
+            Message({
+                showClose: true,
+                message: err,
+                type: 'error',
+                duration: 1000
+            })
         })
     })
 }
@@ -152,9 +166,15 @@ export function fetch(url,params={}){
         axios.get(url,{params:params}).then(response => {
             resolve (response)
         })
-        .catch(error => { 
+        .catch(err => { 
             console.log(err);
-            reject(error) 
+            reject(err);
+            Message({
+                showClose: true,
+                message: err,
+                type: 'error',
+                duration: 1000
+            })
         })
     })
 }
@@ -165,9 +185,15 @@ export function fetchDelete(url,params={}){
         axios.delete(url,{params:params}).then(response => {
             resolve (response)
         })
-        .catch(error => { 
+        .catch(err => { 
             console.log(err);
-            reject(error) 
+            reject(err);
+            Message({
+                showClose: true,
+                message: err,
+                type: 'error',
+                duration: 1000
+            })
         })
     })
 }

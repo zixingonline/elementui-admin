@@ -40,7 +40,7 @@
 			onSubmit(ruleForm) {
 				this.$refs.ruleForm.validate((valid) => {
 					if (valid) {
-						login(this.form)
+						this.$store.dispatch('user/loginActions', this.form)
 							.then((res) => {
 								console.log(res);
 								Message({
@@ -49,8 +49,6 @@
 				                    type: 'success',
 				                    duration: 1000
 				                })
-				                utils.setStorage('token', res.data.token);
-				                utils.setStorage('expired', res.data.expired);
 				                let path;
 			    				if (this.$route.query.redirect) {
 			    					path = this.$route.query.redirect;
@@ -60,6 +58,7 @@
 
 								this.$router.replace({path: path});
 							})
+
 					} else {
 						return false;
 					}
