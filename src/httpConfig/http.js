@@ -66,6 +66,8 @@ axios.interceptors.response.use((response) => {
             break
     
             case 401:
+            utils.setStorage('token', '');
+            Router.push({path: '/login'})
             err.message = '未授权，请登录'
             break
     
