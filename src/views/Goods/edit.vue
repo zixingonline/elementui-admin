@@ -139,30 +139,71 @@
 						:stripe="true" 
 						tooltip-effect="dark" 
 					>
-						<el-table-column prop="size_name" label="分类名称"></el-table-column>
-						<el-table-column prop="item_name" label="分类规格"></el-table-column>
-						<el-table-column prop="price_member" label="会员价"></el-table-column>
-						<el-table-column prop="price_market" label="市场价"></el-table-column>
-						<el-table-column prop="stock" label="库存"></el-table-column>
-						<el-table-column prop="post_fee" label="省内运费"></el-table-column>
-						<el-table-column prop="post_fee_spc" label="省外运费"></el-table-column>
-						<el-table-column label="是否上架">
+						<el-table-column label="分类名称">
 							<template slot-scope="scope">
-								
+								<span v-if="!scope.row.isExist">{{sizeName}}</span>
+								<span v-else>{{scope.row.size_name}}</span>
+							</template>
+						</el-table-column>
+						<el-table-column prop="item_name" label="分类规格">
+							<template slot-scope="scope">
+								<span v-if="!scope.row.isExist">{{itemName}}</span>
+								<span v-else>{{scope.row.item_name}}</span>
+							</template>
+						</el-table-column>
+						<el-table-column label="会员价">
+							<template slot-scope="scope">
+								<el-input v-model="scope.row.price_member" placeholder="会员价" v-if="!scope.row.isExist"></el-input>
+								<span v-else>{{scope.row.price_member}}</span>
+							</template>
+						</el-table-column>
+						<el-table-column label="市场价">
+							<template slot-scope="scope">
+								<el-input v-model="scope.row.price_market" placeholder="市场价" v-if="!scope.row.isExist"></el-input>
+								<span v-else>{{scope.row.price_market}}</span>
+							</template>
+						</el-table-column>
+						<el-table-column label="库存" width="120">
+							<template slot-scope="scope">
+								<el-input v-model="scope.row.stock" placeholder="库存" v-if="!scope.row.isExist"></el-input>
+								<span v-else>{{scope.row.stock}}</span>
+							</template>
+						</el-table-column>
+						<el-table-column label="省内运费" width="120">
+							<template slot-scope="scope">
+								<el-input v-model="scope.row.post_fee" placeholder="省内运费" v-if="!scope.row.isExist"></el-input>
+								<span v-else>{{scope.row.post_fee}}</span>
+							</template>
+						</el-table-column>
+						<el-table-column label="省外运费" width="120">
+							<template slot-scope="scope">
+								<el-input v-model="scope.row.post_fee_spc" placeholder="省外运费" v-if="!scope.row.isExist"></el-input>
+								<span v-else>{{scope.row.post_fee_spc}}</span>
+							</template>
+						</el-table-column>
+						<el-table-column label="是否上架" width="120">
+							<template slot-scope="scope">
+								<el-switch
+								  :disabled="scope.row.isExist"
+								  v-model="scope.row.shelves ? true : false"
+								  active-color="#13ce66"
+								  inactive-color="#cccccc">
+								</el-switch>
 							</template>
 						</el-table-column>
 						<el-table-column label="操作">
 							<template slot-scope="scope">
 								<el-button
+								  v-if="!scope.row.isExist"
 								  size="small"
 								  type="primary"
-								  icon="el-icon-edit"
-								  @click="handleEdit(scope.$index, scope.row)">确定</el-button>
+								  icon="el-icon-check"
+								  @click="handleEdit(scope.$index, scope.row)"></el-button>
 								<el-button
 								  size="small"
 								  type="danger"
 								  icon="el-icon-delete"
-								  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+								  @click="handleDelete(scope.$index, scope.row)"></el-button>
 							</template>
 					    </el-table-column>
 					</el-table>
@@ -172,20 +213,20 @@
 	</div>
 </template>
 <script>
-	import { getGoodsInfo, editGoods } from '@/api/goods'
+	import goodsApi from '@/api/goods'
 	import { MessageBox } from 'element-ui'
 	import QuillEditor from '@/components/Editor/index'
 
 	export default {
 		data () {
 			return {
-				activeName: 'info',
+				activeName: 'size',
 				pageTitle: "",
 				id: "",
 				goodsData: "",
 				goodsForm: {},
 				fileList: [
-					{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}
+					{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}
 				],
 				rules: {
 					title: [
@@ -214,7 +255,8 @@
 					],
 				},
 				sizeName: "",
-				itemName: ""
+				itemName: "",
+				sizeData: [],
 			}
 		},
 		components: {
@@ -230,13 +272,23 @@
 					id: this.id
 				}
 
-				getGoodsInfo(params)
+				goodsApi.getGoodsInfo(params)
 					.then(res => {
 						const { data } = res;
 						const { title, description, class_id, price_member, price_market, size_name, item_name, stock, sales_sum, min_yunfei, shelves, recommend, post_fee, post_fee_spc} = res.data;
 						this.goodsForm = { title, description, class_id, price_member, price_market, size_name, item_name, stock, sales_sum, min_yunfei, shelves, recommend, post_fee, post_fee_spc};
 						this.goodsData = data;
-						this.pageTitle = "ID：" + data.id + " - " + data.title;
+						data.size_list.map(item => {
+							item.isExist = true;
+							this.sizeData.push(item);
+						})
+						data.pictures.map(item => {
+							this.fileList.push({
+								name: item.thumb,
+								url: item.thumb
+							})
+						})
+						// this.pageTitle = "ID：" + data.id + " - " + data.title;
 					})
 			},
 			goBack () {
@@ -248,10 +300,70 @@
 			handlePreview (file) {
 				console.log(file);
 			},
+			createSize () {
+				if (!this.sizeName) {
+					this.$message({
+	                    message: '分类名称不能为空！',
+	                    type: 'error',
+	                    duration: 1000
+					})
+					return;
+				}
+
+				console.log(this.sizeName, this.itemName);
+				this.sizeData.push({
+					size_name: this.sizeName,
+					item_name: this.itemName,
+					price_member: "",
+					price_market: "",
+					stock: "",
+					post_fee: "",
+					post_fee_spc: "",
+					shelves: 1,
+					isExist: false,
+				})
+			},
 			handleRemove () {},
 			submitUpload () {},
 			submitForm () {
 				console.log(this.goodsForm);
+			},
+			handleDelete (index, row) {
+				if (!row.isExist) {
+					this.sizeData.splice(index, 1);
+				} else {
+					this.$confirm('确认删除该子商品?', '警告', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'warning'
+					}).then(() => {
+						const params = {
+							id: row.id
+						}
+						goodsApi.deleteGoods(params)
+							.then(res => {
+								console.log(res);
+								this.$message({
+									type: 'success',
+									message: '删除成功!'
+								});
+
+								this.sizeData.splice(index, 1);
+							})
+					}).catch(() => {});
+				}
+			},
+			handleEdit (index, row) {
+				let params = row;
+				params.p_id = this.goodsData.id;
+				console.log(params);
+				goodsApi.addGoods(params)
+					.then(res => {
+						console.log(res);
+						const { data } = res;
+						this.sizeData[index].isExist = true;
+						this.sizeData[index].id = data;
+					})
 			}
 		}
 	}

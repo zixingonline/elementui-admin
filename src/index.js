@@ -6,8 +6,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from '@/views/App'
 import utils from '@js/utils'
+import { message } from '@/components/MessageBox'
 
 Vue.use(ElementUI)
+Vue.prototype.$message = message;
 
 // import { Container, Header, Main, Aside, Menu, Submenu, MenuItem, MenuItemGroup, Tooltip, Table, TableColumn, Button} from 'element-ui';
 // Vue.use(Container);

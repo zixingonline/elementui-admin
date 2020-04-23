@@ -23,7 +23,7 @@
 							  size="small"
 							  type="success"
 							  icon="el-icon-view"
-							  @click="handleView(scope.$index, scope.row)"></el-button>
+							  @click="handleView(scope.$index, scope.row)">{{scope.row.goods_child}}</el-button>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" width="130">
@@ -90,7 +90,7 @@
 	</div>
 </template>
 <script>
-	import { getGoodsList, deleteGoods, deleteList } from '@/api/goods'
+	import goodsApi from '@/api/goods'
 
 	export default {
 		data () {
@@ -114,7 +114,7 @@
 				let params = {
 					page: this.page,
 				}
-				getGoodsList(params)
+				goodsApi.getGoodsList(params)
 					.then(res => {
 						let { data } = res;
 						this.totalPage = data.totalPage * 10;
@@ -151,7 +151,7 @@
 					const params = {
 						id: row.id
 					}
-					deleteGoods(params)
+					goodsApi.deleteGoods(params)
 						.then(res => {
 							console.log(res);
 							this.$message({
@@ -190,7 +190,7 @@
 					let params = {
 						ids: idsArr.join(",")
 					}
-					deleteList(params)
+					goodsApi.deleteList(params)
 						.then(res => {
 							this.$message({
 								type: 'success',
@@ -213,7 +213,7 @@
 				let params = {
 					p_id: row.id,
 				}
-				getGoodsList(params)
+				goodsApi.getGoodsList(params)
 					.then(res => {
 						let { data } = res;
 						this.dialogTableVisible = true;
