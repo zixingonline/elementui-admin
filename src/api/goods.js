@@ -1,4 +1,4 @@
-import { post, put, fetch, fetchDelete } from '@/httpConfig/http';
+import { post, put, fetch, fetchDelete, postUpload } from '@/httpConfig/http';
 
 const goodsApi = {
 	getGoodsList (params={}) {
@@ -19,7 +19,19 @@ const goodsApi = {
 
 	addGoods (params={}) {
 		return post('/goods', params);
-	}
+	},
+
+	editGoods (params={}) {
+		return put('/goods/' + params.id, params);
+	},
+
+	deleteGoodsPict (params={}) {
+		return post('/goods/deletGoodsPict', params);
+	},
+
+	getClassList (params={}) {
+		return post('/goods/getClassList', params);
+	},
 }
 
 export default goodsApi;

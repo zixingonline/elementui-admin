@@ -1,7 +1,13 @@
 <template>
 	<div>
-		<div class="examples">
-			<h1 class="examples-title">表格示例</h1>
+		<div class="page">
+			<div class="toolbar flex-between">
+				<h1 class="toolbar-title">GOODS <span class="sm">（共 100）</span></h1>
+
+				<div class="toolbar-main">
+					<el-button type="primary" @click="$router.push({path: '/goods-add'})">添加<i class="el-icon-plus el-icon--right"></i></el-button>
+				</div>
+			</div>
 
 			<div class="table">
 				<el-table 
@@ -107,7 +113,7 @@
 			}
 		},
 		created () {
-			this.getData();
+			// this.getData();
 		},
 		methods: {
 			getData () {

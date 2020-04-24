@@ -22,7 +22,7 @@ axios.interceptors.request.use((config) => {
 	// Request 拦截器代码start
 	// ...
 	// Request 拦截器代码end
-     
+    
     let token = utils.getStorage('token');
     if (token) {
         if (config.method == 'post' || config.method == 'put') {
@@ -33,8 +33,10 @@ axios.interceptors.request.use((config) => {
     }
 
 	config.data = qs.stringify(config.data);
-	config.headers = {
-      	'Content-Type':'application/x-www-form-urlencoded'
+    if (!config.headers['Content-Type']) {
+    	config.headers = {
+          	'Content-Type':'application/x-www-form-urlencoded'
+        }
     }
 
     loading = Loading.service({
@@ -148,6 +150,16 @@ export function put(url,params={}){
     return new Promise((resolve,reject) => {
         axios.put(url, params)
         .then(response => {
+            if (response.code != 1001) {
+                Message({
+                    showClose: true,
+                    message: response.msg,
+                    type: 'error',
+                    duration: 1000
+                })
+
+                return;
+            };
             resolve(response);
         },err => {
             console.log(err);

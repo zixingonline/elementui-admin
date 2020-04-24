@@ -1,11 +1,11 @@
 <template>
 	<div class="container">
-		<el-page-header @back="goBack" :content="pageTitle"></el-page-header>
+		<el-page-header @back="goBack" content="新增商品"></el-page-header>
 
-		<el-tabs v-model="activeName" @tab-click="handleClick">
+		<el-tabs v-model="activeName">
 			<el-tab-pane label="基本信息" name="info">
 				<div class="edit-form">
-					<el-form label-position="left" label-width="100px" :rules="rules" :model="goodsForm">
+					<el-form label-position="left" label-width="100px" :rules="rules" ref="ruleForm" :model="goodsForm">
 						<el-row>
 							<el-col :lg="12">
 								<el-form-item label="商品名称" prop="title">
@@ -18,8 +18,7 @@
 
 								<el-form-item label="商品类别" prop="class_id">
 									<el-select v-model="goodsForm.class_id" placeholder="请选择商品类别" style="width:100%">
-										<el-option label="区域一" value="shanghai"></el-option>
-										<el-option label="区域二" value="beijing"></el-option>
+										<el-option :label="item.class_name" :value="item.id" v-for="item in classList"></el-option>
 									</el-select>
 								</el-form-item>
 
@@ -94,7 +93,7 @@
 				</div>		
 			</el-tab-pane>
 
-			<el-tab-pane label="商品图片" name="picture">
+			<el-tab-pane label="商品图片" name="picture" :disabled="id ? false : true">
 				<div class="edit-form">
 					<el-upload
 					  class="upload-demo"
@@ -116,7 +115,7 @@
 				</div>
 			</el-tab-pane>
 
-			<el-tab-pane label="商品规格" name="size">
+			<el-tab-pane label="商品规格" name="size" :disabled="id ? false : true">
 				<div class="edit-form">
 					<el-form label-position="left" label-width="100px">
 						<el-row>
@@ -224,14 +223,13 @@
 	export default {
 		data () {
 			return {
-				activeName: 'picture',
+				activeName: 'info',
 				pageTitle: "",
 				id: "",
+				classList: [],
 				goodsData: "",
 				goodsForm: {},
-				fileList: [
-					// {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}
-				],
+				fileList: [],
 				rules: {
 					title: [
 						{ required: true, message: '请输入商品名称', trigger: 'blur' }
@@ -264,7 +262,7 @@
 				uploadUrl: '/api/goods/uploadPict',
 				uploadData: {
 					token: this.$store.state.user.token,
-					goods_id: ''
+					goods_id: this.id
 				}
 			}
 		},
@@ -272,43 +270,32 @@
 			QuillEditor,
 		},
 		created () {
-			this.id = this.$route.params.id;
-			this.uploadData.goods_id = this.$route.params.id;
-			this.getData();
+			this.getClassList();
+		},
+		mounted () {
+			const _t = this;
+			window.onbeforeunload = function (e) {
+				if(_t.id){
+					e = e || window.event;
+					if (e) {
+						e.returnValue = '关闭提示';
+					}
+					return '关闭提示';
+				} else {
+					window.onbeforeunload =null
+				}
+			}
 		},
 		methods: {
-			getData () {
-				const params = {
-					id: this.id
-				}
-
-				goodsApi.getGoodsInfo(params)
+			getClassList () {
+				goodsApi.getClassList()
 					.then(res => {
-						const { data } = res;
-						const { title, description, class_id, price_member, price_market, size_name, item_name, stock, sales_sum, min_yunfei, shelves, recommend, post_fee, post_fee_spc, content} = res.data;
-						this.goodsForm = { title, description, class_id, price_member, price_market, size_name, item_name, stock, sales_sum, min_yunfei, shelves, recommend, post_fee, post_fee_spc, content};
-						this.goodsData = data;
-						data.size_list.map(item => {
-							item.isExist = true;
-							this.sizeData.push(item);
-						})
-						data.pictures.map(item => {
-							this.fileList.push({
-								id: item.id,
-								name: item.thumb,
-								url: item.thumb,
-							})
-						})
-						this.pageTitle = "ID：" + data.id + " - " + data.title;
+						this.classList = res.data;
 					})
 			},
 
 			goBack () {
 				this.$router.back(-1);
-			},
-
-			handleClick (tab, event) {		// tab切换
-				// console.log(tab, event);
 			},
 
 			handlePreview (files) {
@@ -383,13 +370,24 @@
 			},
 
 			submitForm () {
-				console.log(this.goodsForm);
-				let params = this.goodsForm;
-				params.id = this.id;
-				goodsApi.editGoods(params)
-					.then(res => {
-						console.log(res);
-					})
+				this.$refs['ruleForm'].validate((valid) => {
+					if (valid) {
+						alert('submit!');
+						console.log(this.goodsForm);
+						let params = this.goodsForm;
+						goodsApi.addGoods(params)
+							.then(res => {
+								console.log(res);
+								this.id = res.data;
+							})
+					} else {
+						this.$message({
+							type: 'error',
+							message: '请正确填写商品数据!'
+						});
+						return false;
+					}
+				});
 			},
 
 			handleDeleteSize (index, row) {
@@ -430,7 +428,27 @@
 						this.sizeData[index].id = data;
 					})
 			}
-		}
+		},
+
+		beforeRouteLeave (to, from, next) {
+			if (!this.id) {
+				next();
+			} else {
+				this.$confirm('当前页面数据未保存，确定离开?', '警告', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					next();
+				}).catch(() => {
+					next(false);
+				});	
+			}
+		},
+
+		destroyed() {
+  			window.onbeforeunload = null
+ 		},
 	}
 </script>
 <style>

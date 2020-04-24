@@ -7,6 +7,7 @@ import Login from '@/views/Public/login'
 import Home from '@/views/Home/index'	
 import Goods from '@/views/Goods/index'	
 import GoodsEdit from '@/views/Goods/edit'	
+import GoodsAdd from '@/views/Goods/add'	
 import Table from '@/views/Table/index'	
 		
 Vue.use(VueRouter)
@@ -34,6 +35,10 @@ export default new VueRouter({
 					path: "/goods-edit/:id",
 					name: "goods-edit",
 					component: GoodsEdit
+				},{
+					path: "/goods-add",
+					name: "goods-add",
+					component: GoodsAdd
 				}
 			]
 		}, {
