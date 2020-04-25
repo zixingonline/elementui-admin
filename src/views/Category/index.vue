@@ -1,13 +1,7 @@
 <template>
 	<div>
-		<div class="page">
-			<div class="toolbar flex-between">
-				<h1 class="toolbar-title">GOODS <span class="sm">（共 100）</span></h1>
-
-				<div class="toolbar-main">
-					<el-button type="primary" @click="$router.push({path: '/goods-add'})">添加<i class="el-icon-plus el-icon--right"></i></el-button>
-				</div>
-			</div>
+		<div class="examples">
+			<h1 class="examples-title">分类管理</h1>
 
 			<div class="table">
 				<el-table 
@@ -29,7 +23,7 @@
 							  size="small"
 							  type="success"
 							  icon="el-icon-view"
-							  @click="handleView(scope.$index, scope.row)">{{scope.row.goods_child}}</el-button>
+							  @click="handleView(scope.$index, scope.row)"></el-button>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" width="130">
@@ -96,7 +90,7 @@
 	</div>
 </template>
 <script>
-	import goodsApi from '@/api/goods'
+	import { getGoodsList, deleteGoods, deleteList } from '@/api/goods'
 
 	export default {
 		data () {
@@ -120,7 +114,7 @@
 				let params = {
 					page: this.page,
 				}
-				goodsApi.getGoodsList(params)
+				getGoodsList(params)
 					.then(res => {
 						let { data } = res;
 						this.totalPage = data.totalPage * 10;
@@ -143,6 +137,7 @@
 			},
 
 			handleEdit (index, row) {
+				console.log(index, row);
 				this.$router.push({path: '/goods-edit/' + row.id});
 			},
 
@@ -156,7 +151,7 @@
 					const params = {
 						id: row.id
 					}
-					goodsApi.deleteGoods(params)
+					deleteGoods(params)
 						.then(res => {
 							console.log(res);
 							this.$message({
@@ -164,11 +159,7 @@
 								message: '删除成功!'
 							});
 
-							if (!this.dialogTableVisible) {
-								this.getData();
-							} else {
-								this.subGoodsData.splice(index, 1);
-							}
+							this.listData.splice(index, 1);
 						})
 				}).catch(() => {});
 			},
@@ -199,21 +190,19 @@
 					let params = {
 						ids: idsArr.join(",")
 					}
-					goodsApi.deleteList(params)
+					deleteList(params)
 						.then(res => {
 							this.$message({
 								type: 'success',
 								message: '删除成功!'
 							});
 
-							this.getData();
-
-							// this.delArr.sort((a, b) => { 
-							// 		return b - a
-							// 	});
-							// this.delArr.forEach((index) => { 
-							// 	this.listData.splice(index, 1) 
-							// });		
+							this.delArr.sort((a, b) => { 
+		 						return b - a
+		 					});
+		                    this.delArr.forEach((index) => { 
+		                    	this.listData.splice(index, 1) 
+		                    });		
 						})
 		        }).catch(() => {});
 			},
@@ -224,7 +213,7 @@
 				let params = {
 					p_id: row.id,
 				}
-				goodsApi.getGoodsList(params)
+				getGoodsList(params)
 					.then(res => {
 						let { data } = res;
 						this.dialogTableVisible = true;

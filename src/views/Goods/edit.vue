@@ -224,7 +224,7 @@
 	export default {
 		data () {
 			return {
-				activeName: 'picture',
+				activeName: 'info',
 				pageTitle: "",
 				id: "",
 				goodsData: "",
@@ -288,6 +288,8 @@
 						const { title, description, class_id, price_member, price_market, size_name, item_name, stock, sales_sum, min_yunfei, shelves, recommend, post_fee, post_fee_spc, content} = res.data;
 						this.goodsForm = { title, description, class_id, price_member, price_market, size_name, item_name, stock, sales_sum, min_yunfei, shelves, recommend, post_fee, post_fee_spc, content};
 						this.goodsData = data;
+						this.sizeData = [];
+						this.fileList = [];
 						data.size_list.map(item => {
 							item.isExist = true;
 							this.sizeData.push(item);
@@ -429,6 +431,14 @@
 						this.sizeData[index].isExist = true;
 						this.sizeData[index].id = data;
 					})
+			}
+		},
+		watch: {
+			'$route' (to, from) {
+				console.log(to);
+				this.id = this.$route.params.id;
+				this.uploadData.goods_id = this.$route.params.id;
+				this.getData();
 			}
 		}
 	}

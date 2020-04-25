@@ -5,21 +5,9 @@ const state = {
 	token: utils.getStorage('token'),
 	account: utils.getStorage('account'),
 	uid: utils.getStorage('uid'),
-	sidebarCollapse: utils.getStorage('sidebarCollapse') == undefined ? 0 : utils.getStorage('sidebarCollapse'),
 }
 
 const mutations = {
-	TOGGLE_SIDEBAR (state, payload) {
-		state.sidebarCollapse = payload.status;
-		let lsStatus;
-		if (payload.status) {
-			lsStatus = 1;
-		} else {
-			lsStatus = 0;
-		}
-		utils.setStorage("sidebarCollapse", lsStatus);
-	},
-
 	SET_TOKEN: (state, payload) => {
 		state.token = payload.token;
 	},

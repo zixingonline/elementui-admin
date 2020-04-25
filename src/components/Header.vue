@@ -33,7 +33,7 @@
 				let status = this.isCollapse;
 				status = !status;
 				this.$emit('asideSwitch', status);
-				this.$store.commit('user/TOGGLE_SIDEBAR', {status: status});
+				this.$store.commit('setting/TOGGLE_SIDEBAR', {status: status});
 			},
 
 			logout () {

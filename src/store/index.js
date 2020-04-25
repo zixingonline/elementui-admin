@@ -5,11 +5,13 @@ import Vuex from 'vuex'
 // import mutations from './mutations'
 
 import user from './modules/user'
+import setting from './modules/setting'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	modules: {
 		user,
+		setting,
 	}
 })

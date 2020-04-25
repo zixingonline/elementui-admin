@@ -1,5 +1,5 @@
 <template>
-	<el-menu :default-active="activeIndex" class="el-menu-vertical-demo" 
+	<el-menu :default-active="$route.meta.nav" router="true" class="el-menu-vertical-demo" 
 		@open="handleOpen" 
 		@close="handleClose" 
 		@select="handleSelect"
@@ -11,44 +11,45 @@
 		:router="true"
 	>
 
-		<template v-for="item in menuList" v-if="!item.subMenu">
-		  	<el-menu-item index="1" route="/home">
+		<template v-for="(item, index) in menuList" v-if="!item.subMenu">
+		  	<el-menu-item :index="item.index" :route="item.route" :key="index">
 			    <i class="el-icon-menu"></i>
-			    <span slot="title">HOME</span>
+			    <span slot="title">{{item.title}}</span>
 		  	</el-menu-item>
 	  	</template>
-	  	<template v-for="item in menuList" v-if="item.subMenu">
-		  	<el-submenu :index="item.id">
+
+	  	<template v-for="(item, index) in menuList" v-if="item.subMenu">
+		  	<el-submenu :index="item.index" :key="index">
 			    <template slot="title">
 					<i class="el-icon-date"></i>
 					<span slot="title">{{item.title}}</span>
 			    </template>
 
-				<el-menu-item v-for="subItem in item.subMenu" :index="subItem.id" :route="subItem.route">{{subItem.title}}</el-menu-item>
+				<el-menu-item v-for="(subItem, index) in item.subMenu" :index="subItem.index" :route="subItem.route" :key="index">{{subItem.title}}</el-menu-item>
 		  	</el-submenu>	
 	  	</template>
 	</el-menu>
 </template>
 <script>
 	const menuData = [{
-		id: '1',
+		index: 'home',
 		title: "HOME",
 		route: "/home"
 	},{
-		id: '2',
+		index: 'table',
 		title: "TABLE",
 		route: "#",
 		subMenu: [{
-			id: '2-1',
+			index: 'table',
 			title: "Dynamic Table",
 			route: "/table"
 		}]
 	},{
-		id: '3',
+		index: 'goods',
 		title: "GOODS",
 		route: "#",
 		subMenu: [{
-			id: '3-1',
+			index: 'goods',
 			title: "LIST",
 			route: "/goods"
 		}]
@@ -60,7 +61,7 @@
 				bgColor: "#304156",
 				textColor: "#bfcbd9",
 				activeTextColor: "#67C23A",
-				activeIndex: "1",
+				activeIndex: "/home",
 			}
 		},
 		props: ['isCollapse'],
@@ -86,6 +87,6 @@
 					}
 				}
 			})
-		}
+		},
 	}
 </script>

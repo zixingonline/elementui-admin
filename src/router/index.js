@@ -22,22 +22,37 @@ export default new VueRouter({
 				{
 					path: "/home",
 					name: "home",
+					meta: {
+						nav: 'home'
+					},
 					component: Home
 				},{
 					path: "/table",
 					name: "table",
+					meta: {
+						nav: 'table'
+					},
 					component: Table
 				},{
 					path: "/goods",
 					name: "goods",
+					meta: {
+						nav: 'goods'
+					},
 					component: Goods
 				},{
 					path: "/goods-edit/:id",
 					name: "goods-edit",
+					meta: {
+						nav: 'goods'
+					},
 					component: GoodsEdit
 				},{
 					path: "/goods-add",
 					name: "goods-add",
+					meta: {
+						nav: 'goods'
+					},
 					component: GoodsAdd
 				}
 			]

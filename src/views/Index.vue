@@ -9,9 +9,13 @@
 				<el-header>
 					<Header @asideSwitch="switchHandler" :isCollapse="menuIsCollapse" />
 				</el-header>
+                
+                <HistoryRouter />
 
 				<el-main>
-					<router-view />
+                    <keep-alive>
+					   <router-view />
+                    </keep-alive>
 				</el-main>
 			</el-container>
 		</el-container>
@@ -19,7 +23,8 @@
 </template>
 <script>
 	import Header from '@/components/Header'
-	import Aside from '@/components/Aside'
+    import Aside from '@/components/Aside'
+	import HistoryRouter from '@/components/HistoryRouter'
 
     export default {
         data() {
@@ -29,10 +34,11 @@
         },
         components: {
         	Header,
-        	Aside
+        	Aside,
+            HistoryRouter,
         },
         created () {
-            if (this.$store.state.user.sidebarCollapse == 1) {
+            if (this.$store.state.setting.sidebarCollapse == 1) {
                 this.menuIsCollapse = true;
             } else {
                 this.menuIsCollapse = false;

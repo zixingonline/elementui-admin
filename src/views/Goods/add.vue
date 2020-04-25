@@ -18,7 +18,7 @@
 
 								<el-form-item label="商品类别" prop="class_id">
 									<el-select v-model="goodsForm.class_id" placeholder="请选择商品类别" style="width:100%">
-										<el-option :label="item.class_name" :value="item.id" v-for="item in classList"></el-option>
+										<el-option :label="item.class_name" :value="item.id" v-for="(item, index) in classList" :key="index"></el-option>
 									</el-select>
 								</el-form-item>
 
@@ -228,7 +228,11 @@
 				id: "",
 				classList: [],
 				goodsData: "",
-				goodsForm: {},
+				goodsForm: {
+					recommend: 0,
+					min_yunfei: 0,
+					shelves: 1,
+				},
 				fileList: [],
 				rules: {
 					title: [
@@ -372,13 +376,15 @@
 			submitForm () {
 				this.$refs['ruleForm'].validate((valid) => {
 					if (valid) {
-						alert('submit!');
-						console.log(this.goodsForm);
 						let params = this.goodsForm;
 						goodsApi.addGoods(params)
 							.then(res => {
 								console.log(res);
 								this.id = res.data;
+								this.$message({
+									type: 'success',
+									message: '添加成功!'
+								});
 							})
 					} else {
 						this.$message({
