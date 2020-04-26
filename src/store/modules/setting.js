@@ -22,7 +22,6 @@ const mutations = {
 				state.historyRoute.splice(index, 1);
 			}
 		})
-		console.log(payload);
 
 		let route = {
 			name: payload.params.id ? payload.name + '-' + payload.params.id : payload.name,

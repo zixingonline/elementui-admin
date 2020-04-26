@@ -18,8 +18,7 @@
 
 								<el-form-item label="商品类别" prop="class_id">
 									<el-select v-model="goodsForm.class_id" placeholder="请选择商品类别" style="width:100%">
-										<el-option label="区域一" value="shanghai"></el-option>
-										<el-option label="区域二" value="beijing"></el-option>
+										<el-option :label="item.class_name" :value="item.id" v-for="(item, index) in classList" :key="index"></el-option>
 									</el-select>
 								</el-form-item>
 
@@ -227,6 +226,7 @@
 				activeName: 'info',
 				pageTitle: "",
 				id: "",
+				classList: [],
 				goodsData: "",
 				goodsForm: {},
 				fileList: [
@@ -274,9 +274,17 @@
 		created () {
 			this.id = this.$route.params.id;
 			this.uploadData.goods_id = this.$route.params.id;
+			this.getClassList();
 			this.getData();
 		},
 		methods: {
+			getClassList () {
+				goodsApi.getClassList()
+					.then(res => {
+						this.classList = res.data;
+					})
+			},
+
 			getData () {
 				const params = {
 					id: this.id
@@ -436,9 +444,11 @@
 		watch: {
 			'$route' (to, from) {
 				console.log(to);
-				this.id = this.$route.params.id;
-				this.uploadData.goods_id = this.$route.params.id;
-				this.getData();
+				if (to.name == 'goods-edit') {
+					this.id = this.$route.params.id;
+					this.uploadData.goods_id = this.$route.params.id;
+					this.getData();
+				}
 			}
 		}
 	}

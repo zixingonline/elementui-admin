@@ -6,6 +6,7 @@
 			:action="serverUrl"
 			name="pic"
 			:headers="header"
+			:data="uploadData"
 			:show-file-list="false"
 			:on-success="uploadSuccess"
 			:on-error="uploadError"
@@ -103,7 +104,10 @@
 	          }
 	        }
 	      },
-	      serverUrl: process.env.BASE_API+'upload', // 这里写你要上传的图片服务器地址
+	      serverUrl: '/api/goods/uploadPict', // 这里写你要上传的图片服务器地址
+	      uploadData: {
+	      	token: this.$store.state.user.token,
+	      },
 	      header: {
 	        // token: sessionStorage.token
 	      } // 有的图片服务器要求请求头需要有token

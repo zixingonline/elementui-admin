@@ -39,12 +39,14 @@ Vue.prototype.GLOBAL = global;					// 全局变量配置
 
 
 router.beforeEach((to, from, next) => {			// 全局前置路由钩子
-	console.log(to);
-	store.commit('setting/SETTING_ROUTE', {
-		name: to.name, 
-		path: to.path,
-		params: to.params,
-	});
+	if (to.name != 'login') {
+		store.commit('setting/SETTING_ROUTE', {
+			name: to.name, 
+			path: to.path,
+			params: to.params,
+		});	
+	}
+	
 	const accessToken = utils.getStorage('token');
 	if (accessToken) {
 		if (to.path == "/login") {

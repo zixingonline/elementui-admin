@@ -21,7 +21,7 @@
 	  	<template v-for="(item, index) in menuList" v-if="item.subMenu">
 		  	<el-submenu :index="item.index" :key="index">
 			    <template slot="title">
-					<i class="el-icon-date"></i>
+					<i :class="item.icon"></i>
 					<span slot="title">{{item.title}}</span>
 			    </template>
 
@@ -39,6 +39,7 @@
 		index: 'table',
 		title: "TABLE",
 		route: "#",
+		icon: 'el-icon-date',
 		subMenu: [{
 			index: 'table',
 			title: "Dynamic Table",
@@ -48,6 +49,7 @@
 		index: 'goods',
 		title: "GOODS",
 		route: "#",
+		icon: 'el-icon-goods',
 		subMenu: [{
 			index: 'goods',
 			title: "LIST",
