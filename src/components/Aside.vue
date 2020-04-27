@@ -54,6 +54,10 @@
 			index: 'goods',
 			title: "LIST",
 			route: "/goods"
+		},{
+			index: 'category',
+			title: "CATEGORY",
+			route: "/category"
 		}]
 	}]
 	export default {

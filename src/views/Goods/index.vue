@@ -18,7 +18,7 @@
 					@selection-change="handleSelectionChange"
 				>
 					<el-table-column type="selection" width="55"></el-table-column>
-					<el-table-column prop="id" lable="ID" width="70"></el-table-column>
+					<el-table-column prop="id" label="ID" width="70"></el-table-column>
 					<el-table-column prop="title" label="商品名" width="240"></el-table-column>
 					<el-table-column prop="price_member" label="会员价"></el-table-column>
 					<el-table-column prop="price_market" label="市场价"></el-table-column>

@@ -12,18 +12,17 @@
 					@selection-change="handleSelectionChange"
 				>
 					<el-table-column type="selection" width="55"></el-table-column>
-					<el-table-column prop="id" lable="ID" width="70"></el-table-column>
-					<el-table-column prop="title" label="商品名" width="240"></el-table-column>
-					<el-table-column prop="price_member" label="会员价"></el-table-column>
-					<el-table-column prop="price_market" label="市场价"></el-table-column>
-					<el-table-column prop="class_name" label="分类"></el-table-column>
-					<el-table-column label="子商品">
+					<el-table-column prop="id" label="ID" width="70"></el-table-column>
+					<el-table-column prop="class_name" label="分类名称"></el-table-column>
+					<el-table-column label="创建时间">
+						<template slot-scope="scope">{{timeInit(scope.row.create_time)}}</template>
+					</el-table-column>
+					<el-table-column label="更新时间">
+						<template slot-scope="scope">{{timeInit(scope.row.update_time)}}</template>
+					</el-table-column>
+					<el-table-column label="排序" width="100">
 						<template slot-scope="scope">
-							<el-button
-							  size="small"
-							  type="success"
-							  icon="el-icon-view"
-							  @click="handleView(scope.$index, scope.row)"></el-button>
+							<el-input type="number" v-model="scope.row.sort" placeholder="排序"></el-input>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" width="130">
@@ -90,7 +89,8 @@
 	</div>
 </template>
 <script>
-	import { getGoodsList, deleteGoods, deleteList } from '@/api/goods'
+	import utils from '@js/utils'
+	import goodsApi from '@/api/goods'
 
 	export default {
 		data () {
@@ -109,12 +109,22 @@
 		created () {
 			this.getData();
 		},
+		computed: {
+			timeInit () {
+				return (timestamp) => {
+					if (timestamp) {
+						return utils.timeInit(timestamp);
+					}
+					return '-';
+				}
+			},
+		},
 		methods: {
 			getData () {
 				let params = {
 					page: this.page,
 				}
-				getGoodsList(params)
+				goodsApi.getCategoryList(params)
 					.then(res => {
 						let { data } = res;
 						this.totalPage = data.totalPage * 10;
@@ -151,7 +161,7 @@
 					const params = {
 						id: row.id
 					}
-					deleteGoods(params)
+					goodsApi.deleteGoods(params)
 						.then(res => {
 							console.log(res);
 							this.$message({
@@ -190,7 +200,7 @@
 					let params = {
 						ids: idsArr.join(",")
 					}
-					deleteList(params)
+					goodsApi.deleteList(params)
 						.then(res => {
 							this.$message({
 								type: 'success',
@@ -213,7 +223,7 @@
 				let params = {
 					p_id: row.id,
 				}
-				getGoodsList(params)
+				goodsApi.getGoodsList(params)
 					.then(res => {
 						let { data } = res;
 						this.dialogTableVisible = true;

@@ -32,6 +32,10 @@ const goodsApi = {
 	getClassList (params={}) {
 		return post('/goods/getClassList', params);
 	},
+
+	getCategoryList (params={}) {
+		return fetch('/category', params);
+	}
 }
 
 export default goodsApi;

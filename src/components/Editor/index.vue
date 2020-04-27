@@ -4,7 +4,7 @@
 		<el-upload
 			class="avatar-uploader"
 			:action="serverUrl"
-			name="pic"
+			name="file"
 			:headers="header"
 			:data="uploadData"
 			:show-file-list="false"
@@ -104,7 +104,7 @@
 	          }
 	        }
 	      },
-	      serverUrl: '/api/goods/uploadPict', // 这里写你要上传的图片服务器地址
+	      serverUrl: '/api/user/uploadPict', // 这里写你要上传的图片服务器地址
 	      uploadData: {
 	      	token: this.$store.state.user.token,
 	      },
@@ -133,16 +133,15 @@
 	    },
 
 	    uploadSuccess(res, file) {
-	      debugger
 	      // res为图片服务器返回的数据
 	      // 获取富文本组件实例
 	      let quill = this.$refs.myQuillEditor.quill;
 	      // 如果上传成功
-	      if (res.code == 200) {
+	      if (res.code == 1001) {
 	        // 获取光标所在位置
 	        let length = quill.getSelection().index;
 	        // 插入图片  res.url为服务器返回的图片地址
-	        quill.insertEmbed(length, "image", res.data.url);
+	        quill.insertEmbed(length, "image", res.data.pic_url);
 	        // 调整光标到最后
 	        quill.setSelection(length + 1);
 	      } else {

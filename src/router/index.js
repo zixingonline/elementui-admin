@@ -8,6 +8,7 @@ import Home from '@/views/Home/index'
 import Goods from '@/views/Goods/index'	
 import GoodsEdit from '@/views/Goods/edit'	
 import GoodsAdd from '@/views/Goods/add'	
+import Category from '@/views/Category/index'	
 import Table from '@/views/Table/index'	
 		
 Vue.use(VueRouter)
@@ -54,6 +55,13 @@ export default new VueRouter({
 						nav: 'goods'
 					},
 					component: GoodsAdd
+				},{
+					path: "/category",
+					name: "category",
+					meta: {
+						nav: 'category'
+					},
+					component: Category
 				}
 			]
 		}, {
