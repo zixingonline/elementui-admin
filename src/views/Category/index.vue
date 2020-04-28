@@ -1,7 +1,13 @@
 <template>
 	<div>
-		<div class="examples">
-			<h1 class="examples-title">分类管理</h1>
+		<div class="page">
+			<div class="toolbar flex-between">
+				<h1 class="toolbar-title">GOODS <span class="sm">（共 100）</span></h1>
+
+				<div class="toolbar-main">
+					<el-button type="primary" @click="$router.push({path: '/goods-add'})">添加<i class="el-icon-plus el-icon--right"></i></el-button>
+				</div>
+			</div>
 
 			<div class="table">
 				<el-table 
@@ -32,7 +38,7 @@
 								  size="small"
 								  type="primary"
 								  icon="el-icon-edit"
-								  @click="handleEdit(scope.$index, scope.row)"></el-button>
+								  @click="handleView(scope.$index, scope.row)"></el-button>
 							</el-tooltip>
 
 							<el-tooltip content="删除" placement="top">
@@ -62,29 +68,29 @@
 			</div>
 		</div>
 
-		<el-dialog :title="goodsName" :visible.sync="dialogTableVisible">
-			<el-table :data="subGoodsData">
-				<el-table-column property="id" label="ID" width="60"></el-table-column>
-				<el-table-column property="title" label="商品名" width="180"></el-table-column>
-				<el-table-column property="price_member" label="会员价"></el-table-column>
-				<el-table-column property="price_market" label="市场价"></el-table-column>
-				<el-table-column label="分类/规格">
-					<template slot-scope="scope">
-						{{scope.row.size_name}} / {{scope.row.item_name}}
-					</template>
-				</el-table-column>
-				<el-table-column label="操作" width="60">
-					<template slot-scope="scope">
-						<el-tooltip content="删除" placement="top">
-							<el-button
-							  size="small"
-							  type="danger"
-							  icon="el-icon-delete"
-							  @click="handleDelete(scope.$index, scope.row)"></el-button>
-						</el-tooltip>
-					</template>
-			    </el-table-column>
-			</el-table>
+		<el-dialog :title="categoryName" :visible.sync="dialogTableVisible">
+			<el-form ref="form" :model="form" label-width="80px">
+				<el-form-item label="分类名称">
+				    <el-input v-model="form.class_name" placeholder="请输入分类名称"></el-input>
+				</el-form-item>
+				<el-upload
+				  class="upload-demo"
+				  ref="upload"
+				  :action="uploadUrl"
+				  :on-preview="handlePreview"
+				  :on-remove="handleRemove"
+				  :on-success="handleUploadSuccess"
+				  :before-upload="handleBeforeUpload"
+				  :before-remove="handleBeforeRemove"
+				  :file-list="fileList"
+				  :data="uploadData"
+				  list-type="picture-card"
+				  :auto-upload="false">
+				  <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+				  <el-button size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+				  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+				</el-upload>
+			</el-form>
 		</el-dialog>
 	</div>
 </template>
@@ -101,9 +107,10 @@
         		delArr: [],
         		page: 1,
         		dialogTableVisible: false,
-        		subGoodsData: [],
-        		subGoodsPage: 0,
-        		goodsName: "",
+        		categoryName: "",
+        		form: {
+        			class_name: ""
+        		}
 			}
 		},
 		created () {
@@ -153,7 +160,7 @@
 
 			handleDelete (index, row) {
 				console.log(index, row);
-				this.$confirm('确认删除该商品以及子商品?', '警告', {
+				this.$confirm('确认删除该分类?', '警告', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning'
@@ -161,7 +168,7 @@
 					const params = {
 						id: row.id
 					}
-					goodsApi.deleteGoods(params)
+					goodsApi.deleteCategory(params)
 						.then(res => {
 							console.log(res);
 							this.$message({
@@ -200,7 +207,7 @@
 					let params = {
 						ids: idsArr.join(",")
 					}
-					goodsApi.deleteList(params)
+					goodsApi.deleteCategoryList(params)
 						.then(res => {
 							this.$message({
 								type: 'success',
@@ -218,7 +225,7 @@
 			},
 			
 			handleView (index, row) {
-				this.goodsName = row.title;
+				this.goodsName = row.class_name;
 				
 				let params = {
 					p_id: row.id,

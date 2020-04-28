@@ -35,7 +35,15 @@ const goodsApi = {
 
 	getCategoryList (params={}) {
 		return fetch('/category', params);
-	}
+	},
+
+	deleteCategory (params={}) {
+		return fetchDelete('/category/' + params.id);
+	},
+
+	deleteCategoryList (params={}) {
+		return fetchDelete('/category/deleteAll', params);
+	},
 }
 
 export default goodsApi;
