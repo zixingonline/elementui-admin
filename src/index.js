@@ -25,6 +25,7 @@ Vue.prototype.$message = message;
 // Vue.use(TableColumn);
 // Vue.use(Button);
 
+// Vue.use(window.VueQuillEditor)
 
 import '@/static/css/common.less'				// 默认less文件
 import '@/static/css/reset.css'

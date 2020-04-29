@@ -102,10 +102,11 @@ module.exports = {
         }
     },
 
-    // externals: {		// 如果使用CDN引入js文件就放开注释
-    // 	'vue': 'Vue',
-    // 	'vue-router': 'VueRouter',
-    // },
+    externals: {		// 如果使用CDN引入js文件就放开注释
+    	// 'vue': 'Vue',
+    	// 'vue-router': 'VueRouter',
+    	// 'element-ui': 'ElementUI',
+    },
 
     optimization: {
     	// minimize: process.env.NODE_ENV === 'production' ? true : false,		// 兼容IOS10版本在混淆压缩下的白屏问题--“参数与方法不能同名（如 e (e) {}）”
