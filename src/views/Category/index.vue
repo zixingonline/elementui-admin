@@ -33,21 +33,17 @@
 					</el-table-column>
 					<el-table-column label="操作" width="130">
 						<template slot-scope="scope">
-							<el-tooltip content="修改" placement="top">
-								<el-button
-								  size="small"
-								  type="primary"
-								  icon="el-icon-edit"
-								  @click="handleView(scope.$index, scope.row)"></el-button>
-							</el-tooltip>
+							<el-button
+							  size="small"
+							  type="primary"
+							  icon="el-icon-edit"
+							  @click="handleView(scope.$index, scope.row)"></el-button>
 
-							<el-tooltip content="删除" placement="top">
-								<el-button
-								  size="small"
-								  type="danger"
-								  icon="el-icon-delete"
-								  @click="handleDelete(scope.$index, scope.row)"></el-button>
-							</el-tooltip>
+							<el-button
+							  size="small"
+							  type="danger"
+							  icon="el-icon-delete"
+							  @click="handleDelete(scope.$index, scope.row)"></el-button>
 						</template>
 				    </el-table-column>
 				</el-table>
@@ -88,7 +84,7 @@
 				  :auto-upload="false">
 				  <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
 				  <el-button size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-				  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+				  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过1M</div>
 				</el-upload>
 			</el-form>
 		</el-dialog>

@@ -34,21 +34,17 @@
 					</el-table-column>
 					<el-table-column label="操作" width="130">
 						<template slot-scope="scope">
-							<el-tooltip content="修改" placement="top">
-								<el-button
-								  size="small"
-								  type="primary"
-								  icon="el-icon-edit"
-								  @click="handleEdit(scope.$index, scope.row)"></el-button>
-							</el-tooltip>
+							<el-button
+							  size="small"
+							  type="primary"
+							  icon="el-icon-edit"
+							  @click="handleEdit(scope.$index, scope.row)"></el-button>
 
-							<el-tooltip content="删除" placement="top">
-								<el-button
-								  size="small"
-								  type="danger"
-								  icon="el-icon-delete"
-								  @click="handleDelete(scope.$index, scope.row)"></el-button>
-							</el-tooltip>
+							<el-button
+							  size="small"
+							  type="danger"
+							  icon="el-icon-delete"
+							  @click="handleDelete(scope.$index, scope.row)"></el-button>
 						</template>
 				    </el-table-column>
 				</el-table>

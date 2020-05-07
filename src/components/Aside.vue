@@ -59,6 +59,16 @@
 			title: "CATEGORY",
 			route: "/category"
 		}]
+	},{
+		index: 'order',
+		title: "ORDER",
+		route: "#",
+		icon: 'el-icon-s-order',
+		subMenu: [{
+			index: 'order',
+			title: "LIST",
+			route: "/order"
+		}]
 	}]
 	export default {
 		data () {

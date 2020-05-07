@@ -10,6 +10,8 @@ import GoodsEdit from '@/views/Goods/edit'
 import GoodsAdd from '@/views/Goods/add'	
 import Category from '@/views/Category/index'	
 import Table from '@/views/Table/index'	
+import Order from '@/views/Order/index'	
+import OrderDetail from '@/views/Order/detail'	
 		
 Vue.use(VueRouter)
 export default new VueRouter({
@@ -62,6 +64,20 @@ export default new VueRouter({
 						nav: 'category'
 					},
 					component: Category
+				},{
+					path: "/order",
+					name: "order",
+					meta: {
+						nav: 'order'
+					},
+					component: Order
+				},{
+					path: "/order-detail/:id",
+					name: "order-detail",
+					meta: {
+						nav: 'order'
+					},
+					component: OrderDetail
 				}
 			]
 		}, {
