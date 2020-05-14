@@ -46,6 +46,11 @@
 			route: "/table"
 		}]
 	},{
+		index: 'member',
+		title: "MEMBER",
+		route: "/member",
+		icon: 'el-icon-user'
+	},{
 		index: 'goods',
 		title: "GOODS",
 		route: "#",

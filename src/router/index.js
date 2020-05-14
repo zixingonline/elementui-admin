@@ -12,6 +12,7 @@ import Category from '@/views/Category/index'
 import Table from '@/views/Table/index'	
 import Order from '@/views/Order/index'	
 import OrderDetail from '@/views/Order/detail'	
+import Member from '@/views/Member/index'	
 		
 Vue.use(VueRouter)
 export default new VueRouter({
@@ -78,6 +79,13 @@ export default new VueRouter({
 						nav: 'order'
 					},
 					component: OrderDetail
+				},{
+					path: "/member",
+					name: "member",
+					meta: {
+						nav: 'member'
+					},
+					component: Member
 				}
 			]
 		}, {
