@@ -27,7 +27,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-			</div> -->
+			</div>
 
 			<div class="order-section">
 				<h1 class="examples-title">EXPRESS INFO</h1>
@@ -53,6 +53,27 @@
 						<el-table-column label="发货时间">
 							<template slot-scope="scope">{{timeInit(scope.row.send_time)}}</template>
 						</el-table-column>
+					</el-table>
+				</div>
+			</div> -->
+
+			<div class="order-section">
+				<h1 class="examples-title">GOODS INFO</h1>
+				
+				<div class="table">
+					<el-table 
+						:data="goodsList" 
+						border
+						tooltip-effect="dark" 
+					>
+						<el-table-column label="商品">
+							<template slot-scope="scope">
+									<p>
+										<span class="">{{scope.row.title}}</span>
+									</p>
+							</template>
+						</el-table-column>
+						<el-table-column prop="goods_num" label="手机号"></el-table-column>
 					</el-table>
 				</div>
 			</div>
@@ -111,6 +132,7 @@
 			return {
 				id: this.$route.params.id,
 				order: [],
+				goodsList: [],
 			}
 		},
 		created () {
@@ -136,7 +158,7 @@
 						let { data } = res;
 						console.log(data);
 						this.order.push(data);
-						console.log(this.order);
+						this.goodsList = data.goods_list;
 					})
 			},
 			orderStatusClass (status) {
