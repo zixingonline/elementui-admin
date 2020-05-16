@@ -1,15 +1,34 @@
 <template>
 	<div>
 		<div class="page">
-			<div class="toolbar flex-between">
-				<h1 class="toolbar-title">GOODS <span class="sm">（共 100）</span></h1>
+			<div class="toolbar">
+				<el-row>
+					<el-col :span="8">
+						<h1 class="toolbar-title">GOODS <span class="sm">（共 {{totalCount}}）</span></h1>
+					</el-col>
 
-				<div class="toolbar-main">
-					<el-button type="primary" @click="$router.push({path: '/goods-add'})">添加<i class="el-icon-plus el-icon--right"></i></el-button>
-				</div>
+					<el-col :span="16">
+						<div class="toolbar-main flex">
+							<div class="toolbar-select">
+								<el-select v-model="classId" placeholder="请选择分类" size="small">
+									<el-option :label="item.class_name" :value="item.id" v-for="item in cateList"></el-option>
+								</el-select>
+							</div>
+
+							<div class="toolbar-search flex">
+								<el-input v-model="keyword" size="small" placeholder="请输入关键词"></el-input>
+								<el-button type="primary" size="small" @click="searchKey()">
+									<i class="el-icon-search"></i>
+								</el-button>
+							</div>
+							
+							<el-button type="primary" @click="$router.push({path: '/goods-add'})" size="small">添加<i class="el-icon-plus el-icon--right"></i></el-button>
+						</div>		
+					</el-col>
+				</el-row>
 			</div>
 
-			<div class="table">
+			<!-- <div class="table">
 				<el-table 
 					:data="listData" 
 					ref="multipleTable"
@@ -62,7 +81,7 @@
 					layout="prev, pager, next"
 					:total="totalPage">
 				</el-pagination>	
-			</div>
+			</div> -->
 		</div>
 
 		<el-dialog :title="goodsName" :visible.sync="dialogTableVisible">
@@ -99,6 +118,7 @@
 			return {
 				listData: [],
 				totalPage: 0,
+				totalCount: 0,
         		multipleSelection: [],
         		delArr: [],
         		page: 1,
@@ -106,6 +126,9 @@
         		subGoodsData: [],
         		subGoodsPage: 0,
         		goodsName: "",
+        		keyword: "",
+        		cateList: [],
+        		classId: "",
 			}
 		},
 		created () {
@@ -115,12 +138,16 @@
 			getData () {
 				let params = {
 					page: this.page,
+					keyword: this.keyword,
 				}
 				goodsApi.getGoodsList(params)
 					.then(res => {
 						let { data } = res;
+						console.log(data.cateList);
 						this.totalPage = data.totalPage * 10;
+						this.totalCount = data.totalCount;
 						this.listData = data.data;
+						this.cateList = data.cateList;
 					})
 			},
 
@@ -232,7 +259,12 @@
 			changePage (page) {
 				this.page = page;
 				this.getData();
-			}
+			},
+
+			searchKey () {
+				this.page = 1;
+				this.getData();
+			},
 		},
 	}
 </script>
