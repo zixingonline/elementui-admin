@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="page">
-			<!-- <div class="order-section">
+			<div class="order-section">
 				<h1 class="examples-title">BASE INFO</h1>
 				
 				<div class="table">
@@ -55,7 +55,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-			</div> -->
+			</div>
 
 			<div class="order-section">
 				<h1 class="examples-title">GOODS INFO</h1>
@@ -73,7 +73,9 @@
 									</p>
 							</template>
 						</el-table-column>
-						<el-table-column prop="goods_num" label="手机号"></el-table-column>
+						<el-table-column prop="goods_num" label="数量"></el-table-column>
+						<el-table-column prop="goods_price" label="单价"></el-table-column>
+						<el-table-column prop="goods_price" label="单价"></el-table-column>
 					</el-table>
 				</div>
 			</div>
