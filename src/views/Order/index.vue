@@ -15,6 +15,11 @@
 					<el-table-column prop="order_sn" label="订单号" min-width="200"></el-table-column>
 					<el-table-column prop="price_num" label="金额"></el-table-column>
 					<el-table-column prop="address.receiver" label="收货人"></el-table-column>
+					<el-table-column prop="order_type" label="收货方式">
+						<template slot-scope="scope">
+							{{scope.row.order_type == 1 ? '外送' : '自提'}}
+						</template>
+					</el-table-column>
 					<el-table-column prop="order_status" label="支付状态">
 						<template slot-scope="scope">
 							<span :class="orderStatusClass(scope.row.order_status)">{{orderStatus(scope.row.order_status)}}</span>

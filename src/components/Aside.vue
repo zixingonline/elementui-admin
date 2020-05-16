@@ -36,16 +36,6 @@
 		title: "HOME",
 		route: "/home"
 	},{
-		index: 'table',
-		title: "TABLE",
-		route: "#",
-		icon: 'el-icon-date',
-		subMenu: [{
-			index: 'table',
-			title: "Dynamic Table",
-			route: "/table"
-		}]
-	},{
 		index: 'member',
 		title: "MEMBER",
 		route: "/member",

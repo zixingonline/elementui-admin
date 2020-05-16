@@ -37,6 +37,14 @@ const goodsApi = {
 		return fetch('/category', params);
 	},
 
+	editCategory (params={}) {
+		return put('/category/' + params.id, params);
+	},
+
+	addCategory (params={}) {
+		return post('/category', params);
+	},
+
 	deleteCategory (params={}) {
 		return fetchDelete('/category/' + params.id);
 	},

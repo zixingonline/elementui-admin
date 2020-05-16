@@ -3,18 +3,18 @@
  * 引入方法：import utils from '@/static/js/utils'
  * 使用方法：utils.utilsDemoFunc()
  */ 
-const ls = window.localStorage;
+import Cookies from 'js-cookie'
 const utils = {
 	getStorage (key) {
-		return ls.getItem(key);
+		return Cookies.get(key);
 	},	
 
 	setStorage (key, value) {
-		return ls.setItem(key, value);
+		return Cookies.set(key, value);
 	},
 
 	removeStorage (key) {
-		ls.removeItem(key);
+		return Cookies.remove(key);
 	},
 
 	timeInit (timestamp) {
@@ -39,40 +39,40 @@ const utils = {
 	orderStatusClass (status) {
 		switch (status) {
 			case -1:
-				return 'status-default';
+				return 'text-default';
 				break;
 			case 0:
-				return 'status-error';
+				return 'text-error';
 				break;
 			case 1:
-				return 'status-success';
+				return 'text-success';
 				break;
 			case 2:
-				return 'status-wait';
+				return 'text-wait';
 				break;
 			case 3:
-				return 'status-default';
+				return 'text-default';
 				break;
 			case 4:
-				return 'status-success';
+				return 'text-success';
 				break;
 			case 5:
-				return 'status-wait';
+				return 'text-error';
 				break;
 			case 6:
-				return 'status-error';
+				return 'text-error';
 				break;
 			case 7:
-				return 'status-success';
+				return 'text-success';
 				break;
 			case 8:
-				return 'status-wait';
+				return 'text-wait';
 				break;
 			case 9:
-				return 'status-success';
+				return 'text-success';
 				break;
 			default:
-				return 'status-default';
+				return 'text-default';
 		}
 	},
 
@@ -123,6 +123,9 @@ const utils = {
 				break;
 			case 2:
 				return '支付宝';
+				break;
+			case 3:
+				return '银联';
 				break;
 			default:
 				return '-';

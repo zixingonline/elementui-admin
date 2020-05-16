@@ -3,6 +3,7 @@
 @warnColor: #E6A23C;
 @dangerColor: #F56C6C;
 @infoColor: #909399;
+@primaryColor: #337ab7;
 @baseShadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 @darkShadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
@@ -131,14 +132,23 @@
 	}
 }
 
+.el-table td, .el-table th {
+	padding: 8px 0;
+}
 
-.status {
+.text {
+	&-right {
+		text-align: right;
+	}
+	&-bold {
+		font-weight: bold;
+	}
 	&-success {
 		color: #67C23A;
 	}
 
 	&-error {
-		color: #F56C6C;
+		color: #F00;
 	}
 
 	&-wait {

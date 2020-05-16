@@ -9,7 +9,6 @@ import Goods from '@/views/Goods/index'
 import GoodsEdit from '@/views/Goods/edit'	
 import GoodsAdd from '@/views/Goods/add'	
 import Category from '@/views/Category/index'	
-import Table from '@/views/Table/index'	
 import Order from '@/views/Order/index'	
 import OrderDetail from '@/views/Order/detail'	
 import Member from '@/views/Member/index'	
@@ -30,13 +29,6 @@ export default new VueRouter({
 						nav: 'home'
 					},
 					component: Home
-				},{
-					path: "/table",
-					name: "table",
-					meta: {
-						nav: 'table'
-					},
-					component: Table
 				},{
 					path: "/goods",
 					name: "goods",

@@ -5,7 +5,7 @@
 				<h1 class="toolbar-title">GOODS <span class="sm">（共 100）</span></h1>
 
 				<div class="toolbar-main">
-					<el-button type="primary" @click="$router.push({path: '/goods-add'})">添加<i class="el-icon-plus el-icon--right"></i></el-button>
+					<el-button type="primary" @click="handleAdd()">添加<i class="el-icon-plus el-icon--right"></i></el-button>
 				</div>
 			</div>
 
@@ -28,7 +28,7 @@
 					</el-table-column>
 					<el-table-column label="排序" width="100">
 						<template slot-scope="scope">
-							<el-input type="number" v-model="scope.row.sort" placeholder="排序"></el-input>
+							<el-input type="number" v-model="scope.row.sort" @blur="handleSort(scope.row)" placeholder="排序"></el-input>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" width="130">
@@ -37,7 +37,7 @@
 							  size="small"
 							  type="primary"
 							  icon="el-icon-edit"
-							  @click="handleView(scope.$index, scope.row)"></el-button>
+							  @click="handleEdit(scope.$index, scope.row)"></el-button>
 
 							<el-button
 							  size="small"
@@ -65,27 +65,27 @@
 		</div>
 
 		<el-dialog :title="categoryName" :visible.sync="dialogTableVisible">
-			<el-form ref="form" :model="form" label-width="80px">
-				<el-form-item label="分类名称">
-				    <el-input v-model="form.class_name" placeholder="请输入分类名称"></el-input>
+			<el-form ref="form" :rules="rules" :model="currentCategory" label-width="80px">
+				<el-form-item label="分类名称" prop="class_name">
+				    <el-input v-model="currentCategory.class_name" placeholder="请输入分类名称"></el-input>
 				</el-form-item>
+
 				<el-upload
-				  class="upload-demo"
-				  ref="upload"
+				  class="avatar-uploader"
+				  action="https://jsonplaceholder.typicode.com/posts/"
+				  :show-file-list="false"
 				  :action="uploadUrl"
-				  :on-preview="handlePreview"
-				  :on-remove="handleRemove"
-				  :on-success="handleUploadSuccess"
-				  :before-upload="handleBeforeUpload"
-				  :before-remove="handleBeforeRemove"
-				  :file-list="fileList"
 				  :data="uploadData"
-				  list-type="picture-card"
-				  :auto-upload="false">
-				  <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-				  <el-button size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-				  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过1M</div>
+				  :on-success="handleUploadSuccess"
+				  :before-upload="handleBeforeUpload">
+				  <img v-if="cateIconUrl" :src="cateIconUrl">
+				  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+				  <div class="el-upload__tip" slot="tip">分类图标只能上传jpg/png文件，且不超过1M</div>
 				</el-upload>
+
+				<el-form-item>
+					<el-button type="primary" @click="submitForm()">保存商品</el-button>
+				</el-form-item>
 			</el-form>
 		</el-dialog>
 	</div>
@@ -104,9 +104,21 @@
         		page: 1,
         		dialogTableVisible: false,
         		categoryName: "",
-        		form: {
-        			class_name: ""
-        		}
+        		currentCategory: {
+        			id: "",
+        			class_name: "",
+        			icon: ""
+        		},
+        		uploadUrl: "/api/category/uploadIcon",
+        		uploadData: {
+					token: this.$store.state.user.token,
+				},
+        		cateIconUrl: "",
+        		rules: {
+					class_name: [
+						{ required: true, message: '请输入分类名称', trigger: 'blur' }
+					],
+				},
 			}
 		},
 		created () {
@@ -149,11 +161,6 @@
 				this.multipleSelection = val;
 			},
 
-			handleEdit (index, row) {
-				console.log(index, row);
-				this.$router.push({path: '/goods-edit/' + row.id});
-			},
-
 			handleDelete (index, row) {
 				console.log(index, row);
 				this.$confirm('确认删除该分类?', '警告', {
@@ -172,13 +179,12 @@
 								message: '删除成功!'
 							});
 
-							this.listData.splice(index, 1);
+							this.getData();	
 						})
 				}).catch(() => {});
 			},
 
 			handleSelectDelete () {
-				console.log(this.multipleSelection.length);
 				if (!this.multipleSelection.length) {
 					this.$message.error('请先选择删除项！');
 					return;
@@ -210,34 +216,96 @@
 								message: '删除成功!'
 							});
 
-							this.delArr.sort((a, b) => { 
-		 						return b - a
-		 					});
-		                    this.delArr.forEach((index) => { 
-		                    	this.listData.splice(index, 1) 
-		                    });		
+							this.getData();	
 						})
 		        }).catch(() => {});
 			},
 			
-			handleView (index, row) {
-				this.goodsName = row.class_name;
-				
-				let params = {
-					p_id: row.id,
+			handleEdit (index, row) {
+				this.categoryName = row.class_name;
+				this.dialogTableVisible = true;
+				this.currentCategory = row;
+				this.cateIconUrl = row.icon_url;
+				this.type = 'edit';
+			},
+
+			handleAdd () {
+				this.categoryName = '添加分类';
+				this.dialogTableVisible = true;
+				this.currentCategory = {
+					class_name: "",
+        			icon: "",
+        			id: "",
 				}
-				goodsApi.getGoodsList(params)
-					.then(res => {
-						let { data } = res;
-						this.dialogTableVisible = true;
-						this.subGoodsData = data.data;
-						this.subGoodsPage = data.totalPage;
-					})
+				this.cateIconUrl = "";
+				this.type = 'add';
+			},
+
+			submitForm () {
+				this.$refs['form'].validate((valid) => {
+					if (valid) {
+						let params = this.currentCategory;
+						if (this.type == 'edit') {
+							goodsApi.editCategory(params)
+								.then(res => {
+									this.$message({
+										type: 'success',
+										message: '修改成功!'
+									});
+									this.getData();
+								})
+						} else {
+							goodsApi.addCategory(params)
+								.then(res => {
+									this.currentCategory.id = res.data;
+									this.type = 'edit';
+									this.$message({
+										type: 'success',
+										message: '添加成功!'
+									});
+									this.getData();
+								})
+						}
+					} else {
+						this.$message({
+							type: 'error',
+							message: '请正确填写分类数据!'
+						});
+						return false;
+					}
+				});
 			},
 
 			changePage (page) {
 				this.page = page;
 				this.getData();
+			},
+
+			handleBeforeUpload (files) {
+				if (files.size >= 1024*1024) {
+					this.$message({
+						type: 'error',
+						message: files.name + '文件大小超过1M！'
+					});
+					return false;
+				}
+			},
+
+			handleUploadSuccess (resp, file, fileList) {
+				this.cateIconUrl = resp.data.pic_url;
+				this.currentCategory.icon = resp.data.url;
+			},
+
+			handleSort (row) {
+				let params = row;
+				goodsApi.editCategory(params)
+					.then(res => {
+						this.$message({
+							type: 'success',
+							message: '修改成功!'
+						});
+						this.getData();
+					})
 			}
 		},
 	}
@@ -249,5 +317,32 @@
 
 	.el-table .success-row {
 		background: #f0f9eb;
+	}
+	
+	.avatar-uploader {
+		margin: 0 0 0 80px;
+		height: 144px;
+	}
+	.avatar-uploader .el-upload {
+		border: 1px dashed #d9d9d9;
+		border-radius: 6px;
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+		width: 100px;
+		height: 100px;
+	}
+	.el-upload img {
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+	.avatar-uploader-icon {
+		font-size: 28px;
+		color: #8c939d;
+		width: 100px;
+		height: 100px;
+		line-height: 100px;
+		text-align: center;
 	}
 </style>
