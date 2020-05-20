@@ -10,7 +10,7 @@
 					<el-col :span="16">
 						<div class="toolbar-main flex">
 							<div class="toolbar-select">
-								<el-select v-model="classId" placeholder="请选择分类" size="small">
+								<el-select v-model="classId" placeholder="请选择分类" size="small" @change="selectCategory()">
 									<el-option :label="item.class_name" :value="item.id" v-for="item in cateList"></el-option>
 								</el-select>
 							</div>
@@ -28,7 +28,7 @@
 				</el-row>
 			</div>
 
-			<!-- <div class="table">
+			<div class="table">
 				<el-table 
 					:data="listData" 
 					ref="multipleTable"
@@ -77,11 +77,13 @@
 			<div class="pagination flex-center">
 				<el-pagination
 					@current-change="changePage"
+					:current-page="page"
 					background
 					layout="prev, pager, next"
+					ref="pagination"
 					:total="totalPage">
 				</el-pagination>	
-			</div> -->
+			</div>
 		</div>
 
 		<el-dialog :title="goodsName" :visible.sync="dialogTableVisible">
@@ -137,17 +139,19 @@
 		methods: {
 			getData () {
 				let params = {
+					cid: this.classId,
 					page: this.page,
 					keyword: this.keyword,
 				}
 				goodsApi.getGoodsList(params)
 					.then(res => {
 						let { data } = res;
-						console.log(data.cateList);
 						this.totalPage = data.totalPage * 10;
 						this.totalCount = data.totalCount;
 						this.listData = data.data;
-						this.cateList = data.cateList;
+						if (!this.cateList.length) {
+							this.cateList = data.cateList;
+						}
 					})
 			},
 
@@ -262,6 +266,13 @@
 			},
 
 			searchKey () {
+				this.classId = "";
+				this.page = 1;
+				this.getData();
+			},
+
+			selectCategory () {
+				this.keyword = "";
 				this.page = 1;
 				this.getData();
 			},

@@ -1,8 +1,34 @@
 <template>
 	<div>
 		<div class="page">
-			<div class="toolbar flex-between">
-				<h1 class="toolbar-title">ORDER <span class="sm">（共 {{totalCount}}）</span></h1>
+			<div class="toolbar">
+				<el-row>
+					<el-col :span="8">
+						<h1 class="toolbar-title">ORDER <span class="sm">（共 {{totalCount}}）</span></h1>
+					</el-col>
+
+					<el-col :span="16">
+						<div class="toolbar-main flex">
+							<div class="toolbar-select">
+								<el-select v-model="order_status" placeholder="请选择订单状态" size="small" @change="selectType()">
+									<el-option label="全部" value=""></el-option>
+									<el-option label="已支付" :value="1"></el-option>
+									<el-option label="未支付" :value="0"></el-option>
+									<el-option label="取消订单" :value="-1"></el-option>
+								</el-select>
+							</div>
+
+							<div class="toolbar-search flex">
+								<el-input v-model="order_sn" size="small" placeholder="订单号查询"></el-input>
+								<el-button type="primary" size="small" @click="searchKey()">
+									<i class="el-icon-search"></i>
+								</el-button>
+							</div>
+							
+							<el-button type="primary" @click="$router.push({path: '/goods-add'})" size="small">添加<i class="el-icon-plus el-icon--right"></i></el-button>
+						</div>		
+					</el-col>
+				</el-row>
 			</div>
 
 			<div class="table">
@@ -72,10 +98,8 @@
 				totalCount: "",
         		page: 1,
         		dialogTableVisible: false,
-        		categoryName: "",
-        		form: {
-        			class_name: ""
-        		}
+        		order_status: "",
+        		order_sn: "",
 			}
 		},
 		created () {
@@ -95,6 +119,8 @@
 			getData () {
 				let params = {
 					page: this.page,
+					order_status: this.order_status,
+					order_sn: this.order_sn,
 				}
 				orderApi.getList(params)
 					.then(res => {
@@ -146,7 +172,19 @@
 
 			payType (type) {
 				return utils.payType(type);
-			}
+			},
+
+			searchKey () {
+				this.order_status = "";
+				this.page = 1;
+				this.getData();
+			},
+
+			selectType () {
+				this.keyword = "";
+				this.page = 1;
+				this.getData();
+			},
 		},
 	}
 </script>
