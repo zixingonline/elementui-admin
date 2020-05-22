@@ -25,13 +25,13 @@
 								</el-button>
 							</div>
 							
-							<el-button type="primary" @click="$router.push({path: '/goods-add'})" size="small">添加<i class="el-icon-plus el-icon--right"></i></el-button>
+							<el-button type="primary" @click="exportList()" size="small">导出<i class="el-icon-plus el-icon--right"></i></el-button>
 						</div>		
 					</el-col>
 				</el-row>
 			</div>
 
-			<div class="table">
+			<!-- <div class="table">
 				<el-table 
 					:data="listData" 
 					:stripe="true" 
@@ -73,7 +73,7 @@
 						</template>
 				    </el-table-column>
 				</el-table>
-			</div>
+			</div> -->
 
 			<div class="pagination flex-center">
 				<el-pagination
@@ -184,6 +184,10 @@
 				this.keyword = "";
 				this.page = 1;
 				this.getData();
+			},
+
+			exportList () {
+				// window.open('')
 			},
 		},
 	}
