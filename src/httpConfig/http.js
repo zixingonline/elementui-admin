@@ -3,10 +3,12 @@ import qs from 'qs'
 import GLOBAL from '@/static/js/global'				// 引入全局变量配置文件
 import Router from '@/router/index'					// 引入路由对象
 import utils from '@/static/js/utils'				// 引入工具对象
-import { Message } from 'element-ui';
-import { Loading } from 'element-ui';
+// import { Message } from 'element-ui';
+// import { Loading } from 'element-ui';
+const Message = ELEMENT.Message;
+const Loading = ELEMENT.Loading;
 
-let baseUrl = GLOBAL.REQUEST_URL;
+const baseUrl = GLOBAL.REQUEST_URL;
 
 
 	// axios默认配置

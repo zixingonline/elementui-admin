@@ -1,13 +1,16 @@
 /**重置message，防止重复点击重复弹出message弹框 */
-import {
-    Message
-} from 'element-ui';
+// import {
+//     Message
+// } from 'element-ui';
+
+// console.log(ELEMENT);        
+
 let messageInstance = null;
 const resetMessage = (options) => {
     if(messageInstance) {
         messageInstance.close()
     }
-    messageInstance = Message(options)
+    messageInstance = ELEMENT.Message(options)
 }
 ;['error','success','info','warning'].forEach(type => {
     resetMessage[type] = options => {

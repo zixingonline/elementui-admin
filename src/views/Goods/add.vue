@@ -39,7 +39,7 @@
 								</el-form-item>
 
 								<el-form-item label="商品销量" prop="sales_sum">
-									<el-input v-model="goodsForm.sales_sum" placeholder="请输入分类规格"></el-input>
+									<el-input v-model="goodsForm.sales_sum" placeholder="请输入商品销量"></el-input>
 								</el-form-item>
 
 								<el-form-item label="商品库存" prop="stock">
@@ -79,7 +79,7 @@
 
 							<el-col :lg="20">
 								<el-form-item label="商品详情">
-									<QuillEditor v-model="goodsForm.content"/>
+									<QuillEditor @input="updateContent" :value="goodsForm.content" v-if="goodsForm.content" />
 								</el-form-item>
 							</el-col>
 
@@ -216,7 +216,6 @@
 </template>
 <script>
 	import goodsApi from '@/api/goods'
-	import { MessageBox } from 'element-ui'
 	import QuillEditor from '@/components/Editor/index'
 	import axios from 'axios'
 

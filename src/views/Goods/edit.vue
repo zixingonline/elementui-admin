@@ -79,7 +79,7 @@
 
 							<el-col :lg="20">
 								<el-form-item label="商品详情">
-									<QuillEditor v-model="goodsForm.content"/>
+									<QuillEditor @input="updateContent" :value="goodsForm.content" v-if="goodsForm.content" />
 								</el-form-item>
 							</el-col>
 
@@ -216,9 +216,10 @@
 </template>
 <script>
 	import goodsApi from '@/api/goods'
-	import { MessageBox } from 'element-ui'
 	import QuillEditor from '@/components/Editor/index'
 	import axios from 'axios'
+	// import { mavonEditor } from "mavon-editor";
+	// import "mavon-editor/dist/css/index.css";
 
 	export default {
 		data () {
@@ -399,6 +400,10 @@
 				goodsApi.editGoods(params)
 					.then(res => {
 						console.log(res);
+						this.$message({
+							type: 'success',
+							message: '保存成功!'
+						});
 					})
 			},
 
@@ -439,11 +444,14 @@
 						this.sizeData[index].isExist = true;
 						this.sizeData[index].id = data;
 					})
-			}
+			},
+
+			updateContent (e) {
+				this.goodsForm.content = e;
+			},
 		},
 		watch: {
 			'$route' (to, from) {
-				console.log(to);
 				if (to.name == 'goods-edit') {
 					this.id = this.$route.params.id;
 					this.uploadData.goods_id = this.$route.params.id;

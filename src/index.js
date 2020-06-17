@@ -1,29 +1,15 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import router from '@/router/index'
 import store from '@/store/index'
 import global from '@js/global'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
 import App from '@/views/App'
 import utils from '@js/utils'
 import { message } from '@/components/MessageBox'
 
-Vue.use(ElementUI)
+// Vue.use(ElementUI)
 Vue.prototype.$message = message;
-
-// import { Container, Header, Main, Aside, Menu, Submenu, MenuItem, MenuItemGroup, Tooltip, Table, TableColumn, Button} from 'element-ui';
-// Vue.use(Container);
-// Vue.use(Header);
-// Vue.use(Main);
-// Vue.use(Aside);
-// Vue.use(Menu);
-// Vue.use(Submenu);
-// Vue.use(MenuItem);
-// Vue.use(MenuItemGroup);
-// Vue.use(Tooltip);
-// Vue.use(Table);
-// Vue.use(TableColumn);
-// Vue.use(Button);
 
 // Vue.use(window.VueQuillEditor)
 

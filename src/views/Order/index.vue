@@ -4,11 +4,24 @@
 			<div class="toolbar">
 				<el-row>
 					<el-col :span="6">
-						<!-- <h1 class="toolbar-title">ORDER <span class="sm">（共 {{totalCount}}）</span></h1> -->
+						<h1 class="toolbar-title">ORDER <span class="sm">（共 {{totalCount}}）</span></h1>
 					</el-col>
 
 					<el-col :span="18">
 						<div class="toolbar-main flex">
+							<div class="toolbar-datetime">
+								<el-date-picker
+							      v-model="dateTime"
+							      type="daterange"
+							      size="small"
+							      value-format="timestamp"
+							      @change="changeDate()"
+							      range-separator="至"
+							      start-placeholder="开始日期"
+							      end-placeholder="结束日期">
+							    </el-date-picker>
+							</div>
+
 							<div class="toolbar-select">
 								<el-select v-model="order_status" placeholder="请选择订单状态" size="small" @change="selectType()">
 									<el-option label="全部" value=""></el-option>
@@ -24,26 +37,14 @@
 									<i class="el-icon-search"></i>
 								</el-button>
 							</div>
-
-							<div class="toolbar-datetime">
-								<el-date-picker
-							      v-model="dateTime"
-							      type="daterange"
-							      size="small"
-							      @change="changeDate()"
-							      range-separator="至"
-							      start-placeholder="开始日期"
-							      end-placeholder="结束日期">
-							    </el-date-picker>
-							</div>
 							
-							<el-button type="primary" @click="exportList()" size="small">导出<i class="el-icon-plus el-icon--right"></i></el-button>
+							<el-button type="primary" @click="exportList()" size="small">导出Excel<i class="el-icon-download el-icon--right"></i></el-button>
 						</div>		
 					</el-col>
 				</el-row>
 			</div>
 
-			<!-- <div class="table">
+			<div class="table">
 				<el-table 
 					:data="listData" 
 					:stripe="true" 
@@ -85,7 +86,7 @@
 						</template>
 				    </el-table-column>
 				</el-table>
-			</div> -->
+			</div>
 
 			<div class="pagination flex-center">
 				<el-pagination
@@ -121,6 +122,7 @@
 					    <el-date-picker
 					      v-model="exportForm.month"
 					      type="month"
+					      :picker-options="pickerOptions1"
 					      placeholder="选择月份">
 					    </el-date-picker>	
 					</el-form-item>
@@ -134,6 +136,7 @@
 	</div>
 </template>
 <script>
+	import GLOBAL from '@js/global'
 	import utils from '@js/utils'
 	import orderApi from '@/api/order'
 
@@ -154,6 +157,11 @@
         		exportForm: {
         			month: "",
         			status: "",
+        		},
+        		pickerOptions1: {
+        			disabledDate(time) {
+			            return time.getTime() > Date.now();
+			      	},
         		}
 			}
 		},
@@ -251,8 +259,8 @@
 					return;
 				}
 
-				this.startTimeStamp = Math.floor(new Date(this.dateTime[0]).getTime() / 1000);
-				this.endTimeStamp = Math.floor(new Date(this.dateTime[1]).getTime() / 1000); 
+				this.startTimeStamp = Math.floor(this.dateTime[0] / 1000);
+				this.endTimeStamp = Math.floor(this.dateTime[1] / 1000); 
 
 				this.getData();
 			},
@@ -262,7 +270,17 @@
 			},
 
 			handleExportExcel () {
+				let year = "",
+					month = "",
+					status = this.exportForm.status;
 
+				if (this.exportForm.month) {
+					year = new Date(this.exportForm.month).getFullYear();
+					month = new Date(this.exportForm.month).getMonth() + 1;	
+				}
+				
+				let reqUrl = GLOBAL.REQUEST_URL + "/api/Base/exportList?year=" + year + "&month=" + month + "&order_status=" + status;
+				window.open(reqUrl);
 			},
 		},
 	}

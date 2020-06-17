@@ -19,10 +19,8 @@
 	</div>
 </template>
 <script>
-	import { login } from '@/api/user'
 	import utils from '@js/utils'
 	import { loginRule } from '@js/validRules'
-	import { Message } from 'element-ui';
 	
 	export default {
 		data () {
@@ -43,7 +41,7 @@
 						this.$store.dispatch('user/loginActions', this.form)
 							.then((res) => {
 								console.log(res);
-								Message({
+								ELEMENT.Message({
 				                    showClose: true,
 				                    message: '登录成功！',
 				                    type: 'success',

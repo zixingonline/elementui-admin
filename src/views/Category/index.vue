@@ -71,7 +71,7 @@
 				</el-form-item>
 
 				<el-upload
-				  class="avatar-uploader"
+				  class="cateicon-uploader"
 				  action="https://jsonplaceholder.typicode.com/posts/"
 				  :show-file-list="false"
 				  :action="uploadUrl"
@@ -79,8 +79,8 @@
 				  :on-success="handleUploadSuccess"
 				  :before-upload="handleBeforeUpload">
 				  <img v-if="cateIconUrl" :src="cateIconUrl">
-				  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-				  <div class="el-upload__tip" slot="tip">分类图标只能上传jpg/png文件，且不超过1M</div>
+				  <i v-else class="el-icon-plus cateicon-uploader-icon"></i>
+				  <div class="el-upload__tip" slot="tip">点击上传，分类图标只能上传jpg/png文件，且不超过1M</div>
 				</el-upload>
 
 				<el-form-item>
@@ -310,7 +310,7 @@
 		},
 	}
 </script>
-<style>
+<style scoped>
 	.el-table .warning-row {
 		background: oldlace;
 	}
@@ -319,11 +319,12 @@
 		background: #f0f9eb;
 	}
 	
-	.avatar-uploader {
+	.cateicon-uploader {
 		margin: 0 0 0 80px;
 		height: 144px;
+		/*width: 144px;*/
 	}
-	.avatar-uploader .el-upload {
+	.cateicon-uploader .el-upload {
 		border: 1px dashed #d9d9d9;
 		border-radius: 6px;
 		cursor: pointer;
@@ -334,10 +335,10 @@
 	}
 	.el-upload img {
 		display: block;
-		height: 100%;
-		width: 100%;
+		height: 100px;
+		width: 100px;
 	}
-	.avatar-uploader-icon {
+	.cateicon-uploader-icon {
 		font-size: 28px;
 		color: #8c939d;
 		width: 100px;

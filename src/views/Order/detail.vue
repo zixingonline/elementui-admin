@@ -192,7 +192,7 @@
 <style>
 	.el-table th.is-leaf {
 		color: #FFF;
-		background: #409EFF;
+		background: #1c84c6;
 	}
 	.el-table td, .el-table th.is-leaf {
 		text-align: center;

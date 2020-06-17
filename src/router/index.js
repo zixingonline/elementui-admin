@@ -1,4 +1,4 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 	// 正常路由配置
@@ -11,7 +11,9 @@ import GoodsAdd from '@/views/Goods/add'
 import Category from '@/views/Category/index'	
 import Order from '@/views/Order/index'	
 import OrderDetail from '@/views/Order/detail'	
+import Poster from '@/views/Poster/index'	
 import Member from '@/views/Member/index'	
+import Setting from '@/views/Setting/index'	
 		
 Vue.use(VueRouter)
 export default new VueRouter({
@@ -58,6 +60,13 @@ export default new VueRouter({
 					},
 					component: Category
 				},{
+					path: "/poster",
+					name: "poster",
+					meta: {
+						nav: 'poster'
+					},
+					component: Poster
+				},{
 					path: "/order",
 					name: "order",
 					meta: {
@@ -78,6 +87,13 @@ export default new VueRouter({
 						nav: 'member'
 					},
 					component: Member
+				},{
+					path: "/setting",
+					name: "setting",
+					meta: {
+						nav: 'setting'
+					},
+					component: Setting
 				}
 			]
 		}, {

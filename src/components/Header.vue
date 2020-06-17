@@ -22,7 +22,6 @@
 	</div>
 </template>
 <script>
-	import { MessageBox } from 'element-ui'
 	export default {
 		data () {
 			return {}

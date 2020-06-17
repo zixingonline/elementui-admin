@@ -107,7 +107,15 @@
 	    };
 	  },
 
+	  updated () {
+	  	console.log(this.value);
+	  },
+
 	  methods: {
+	  	onEditorReady () {
+	  		console.log(this.value);
+	  		this.content = this.value;
+	  	},
 	    onEditorBlur() {
 	      //失去焦点事件
 	    },

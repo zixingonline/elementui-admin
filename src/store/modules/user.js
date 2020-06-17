@@ -1,5 +1,5 @@
 import utils from '@/static/js/utils'
-import { login, logout } from '@/api/user'
+import userApi from '@/api/user'
 
 const state = {
 	token: utils.getStorage('token'),
@@ -21,7 +21,7 @@ const mutations = {
 const actions = {
 	loginActions ({commit}, payload) {
 		return new Promise((resolve, reject) => {
-			login(payload)
+			userApi.login(payload)
 				.then(res => {
 					const { data } = res;
 					const info = {
@@ -40,7 +40,7 @@ const actions = {
 
 	logoutActions ({commit}, payload={}) {
 		return new Promise((resolve, reject) => {
-			logout(payload)
+			userApi.logout(payload)
 				.then(res => {
 					const { data } = res;
 					const info = {

@@ -1,9 +1,9 @@
 @baseColor: #409EFF;
-@successColor: #67C23A;
-@warnColor: #E6A23C;
-@dangerColor: #F56C6C;
-@infoColor: #909399;
-@primaryColor: #337ab7;
+@successColor: #1ab394;
+@warnColor: #f8ac59;
+@dangerColor: #ed5565;
+@infoColor: #23c6c8;
+@primaryColor: #1c84c6;
 @baseShadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 @darkShadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
@@ -185,4 +185,29 @@
 	&-default {
 		color: #909399;
 	}
+}
+
+.el-button--primary {
+    background-color: @primaryColor;
+    border-color: @primaryColor;
+}
+
+.el-button--danger {
+	background-color: @dangerColor;
+    border-color: @dangerColor;
+}
+
+.el-button--success {
+	background-color: @successColor;
+    border-color: @successColor;
+}
+
+.el-button--info {
+	background-color: @infoColor;
+    border-color: @infoColor;
+}
+
+.el-button--warning {
+	background-color: @warnColor;
+    border-color: @warnColor;
 }

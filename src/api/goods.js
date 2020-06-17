@@ -52,6 +52,10 @@ const goodsApi = {
 	deleteCategoryList (params={}) {
 		return fetchDelete('/category/deleteAll', params);
 	},
+
+	getBannerList (params={}) {
+		return post('/banner/getList', params);
+	}
 }
 
 export default goodsApi;

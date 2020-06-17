@@ -11,22 +11,20 @@
 		:router="true"
 	>
 
-		<template v-for="(item, index) in menuList" v-if="!item.subMenu">
-		  	<el-menu-item :index="item.index" :route="item.route" :key="index">
-			    <i class="el-icon-menu"></i>
+		<template v-for="(item, index) in menuList">
+		  	<el-menu-item :index="item.index" :route="item.route" :key="index" v-if="!item.subMenu">
+			    <i :class="item.icon"></i>
 			    <span slot="title">{{item.title}}</span>
 		  	</el-menu-item>
-	  	</template>
 
-	  	<template v-for="(item, index) in menuList" v-if="item.subMenu">
-		  	<el-submenu :index="item.index" :key="index">
+		  	<el-submenu :index="item.index" :key="index" v-else>
 			    <template slot="title">
 					<i :class="item.icon"></i>
 					<span slot="title">{{item.title}}</span>
 			    </template>
 
 				<el-menu-item v-for="(subItem, index) in item.subMenu" :index="subItem.index" :route="subItem.route" :key="index">{{subItem.title}}</el-menu-item>
-		  	</el-submenu>	
+		  	</el-submenu>
 	  	</template>
 	</el-menu>
 </template>
@@ -34,7 +32,8 @@
 	const menuData = [{
 		index: 'home',
 		title: "HOME",
-		route: "/home"
+		route: "/home",
+		icon: "el-icon-s-shop"
 	},{
 		index: 'member',
 		title: "MEMBER",
@@ -53,6 +52,10 @@
 			index: 'category',
 			title: "CATEGORY",
 			route: "/category"
+		},{
+			index: 'poster',
+			title: "POSTER",
+			route: "/poster"
 		}]
 	},{
 		index: 'order',
@@ -64,7 +67,12 @@
 			title: "LIST",
 			route: "/order"
 		}]
-	}]
+	},{
+		index: 'setting',
+		title: "SETTING",
+		route: "/setting",
+		icon: 'el-icon-setting'
+	},]
 	export default {
 		data () {
 			return {

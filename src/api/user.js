@@ -1,10 +1,22 @@
 import { post, put, fetch, fetchDelete } from '@/httpConfig/http';
 
-export function login (params) {
-	return post('/user/login', params);
+const userApi = {
+	login (params={}) {
+		return post('/user/login', params);
+	},
+
+	logout (params={}) {
+		return post('/user/logout', params);
+	},
+
+	getConfig (params={}) {
+		return post('/user/getConfig', params);
+	},
+
+	updateConfig (params={}) {
+		return post('/user/updateConfig', params);
+	},
 }
 
-export function logout () {
-	return post('/user/logout', {});
-}
+export default userApi;
 
