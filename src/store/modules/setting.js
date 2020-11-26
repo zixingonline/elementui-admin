@@ -2,7 +2,13 @@ import utils from '@/static/js/utils'
 
 const state = {
 	sidebarCollapse: utils.getStorage('sidebarCollapse') == undefined ? 0 : utils.getStorage('sidebarCollapse'),
-	historyRoute: [],
+	historyRoute: [
+		{
+			name: 'Home',
+			path: '/home',
+			params: {}
+		}
+	],
 }
 
 const mutations = {
@@ -17,22 +23,27 @@ const mutations = {
 		utils.setStorage("sidebarCollapse", lsStatus);
 	},
 	SETTING_ROUTE (state, payload) {
-		state.historyRoute.map((item, index) => {
-			if (payload.path == item.path) {
-				state.historyRoute.splice(index, 1);
-			}
+		if (payload.name == 'login') {
+			return;
+		}
+
+		let isExist = state.historyRoute.find(item => {
+			return item.path  == payload.path;
 		})
 
-		let route = {
-			name: payload.params.id ? payload.name + '-' + payload.params.id : payload.name,
-			path: payload.path,
-			params: payload.params,
+		if (!isExist) {
+			let route = {
+				name: payload.params.id ? payload.name + '-' + payload.params.id : payload.name,
+				path: payload.path,
+				params: payload.params,
+			}
+			state.historyRoute.push(route);
 		}
-		state.historyRoute.push(route);
 
-		if (state.historyRoute.length > 10) {
-			state.historyRoute.splice(10, 1);
-		};
+
+		// if (state.historyRoute.length > 10) {
+		// 	state.historyRoute.splice(10, 1);
+		// };
 	},
 }
 

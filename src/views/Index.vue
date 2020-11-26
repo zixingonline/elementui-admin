@@ -13,9 +13,12 @@
                 <HistoryRouter />
 
 				<el-main>
-                    <keep-alive>
-					   <router-view />
-                    </keep-alive>
+                    <transition name="fade-transform" mode="out-in">
+                        <!-- <keep-alive :include="cacheList"> -->
+                        <keep-alive>
+    					   <router-view :key="$route.fullPath" />
+                        </keep-alive>
+                    </transition>
 				</el-main>
 			</el-container>
 		</el-container>
@@ -30,6 +33,7 @@
         data() {
             return {
                 menuIsCollapse: false,
+                cacheList: ['home', 'goods', 'order', 'order-detail'],
             }
         },
         components: {
@@ -61,4 +65,7 @@
 		height: 100%;
 		width: 100%;
 	}
+    .el-main {
+        overflow-x: hidden;
+    }
 </style>

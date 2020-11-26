@@ -11,6 +11,7 @@ import GoodsAdd from '@/views/Goods/add'
 import Category from '@/views/Category/index'	
 import Order from '@/views/Order/index'	
 import OrderDetail from '@/views/Order/detail'	
+import OrderSend from '@/views/Order/send'
 import Poster from '@/views/Poster/index'	
 import Member from '@/views/Member/index'	
 import Setting from '@/views/Setting/index'	
@@ -80,6 +81,13 @@ export default new VueRouter({
 						nav: 'order'
 					},
 					component: OrderDetail
+				},{
+					path: "/order-send/:id",
+					name: "order-send",
+					meta: {
+						nav: 'order'
+					},
+					component: OrderSend
 				},{
 					path: "/member",
 					name: "member",

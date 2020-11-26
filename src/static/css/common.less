@@ -1,7 +1,7 @@
 @baseColor: #409EFF;
 @successColor: #1ab394;
 @warnColor: #f8ac59;
-@dangerColor: #ed5565;
+@dangerColor: #d9534f;
 @infoColor: #23c6c8;
 @primaryColor: #1c84c6;
 @baseShadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -42,7 +42,7 @@
 	&-header {
 		padding-left: 0;
 		background: #FFF;
-		box-shadow: @baseShadow;
+		// box-shadow: @baseShadow;
 	}
 
 	&-aside {
@@ -162,6 +162,9 @@
 .el-table td, .el-table th {
 	padding: 8px 0;
 }
+.el-table td .cell {
+	font-size: 12px;
+}
 
 .text {
 	&-right {
@@ -210,4 +213,21 @@
 .el-button--warning {
 	background-color: @warnColor;
     border-color: @warnColor;
+}
+
+
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  	transition: all .5s;
+}
+
+.fade-transform-enter {
+	opacity: 0;
+	transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+	opacity: 0;
+	transform: translateX(30px);
 }
