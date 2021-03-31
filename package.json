@@ -54,6 +54,7 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "echarts": "^5.0.0",
     "element-ui": "^2.13.0"
   }
 }

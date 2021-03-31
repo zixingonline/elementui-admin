@@ -23,6 +23,11 @@ Vue.prototype.$fetch = fetch;
 Vue.prototype.$fetchDelete = fetchDelete;						
 Vue.prototype.GLOBAL = global;					// 全局变量配置
 
+// import echarts from 'echarts'
+// console.log(echarts);
+// Vue.prototype.$echarts = echarts
+// console.log(Vue.prototype);
+
 
 
 router.beforeEach((to, from, next) => {			// 全局前置路由钩子

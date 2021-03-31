@@ -43,7 +43,8 @@ axios.interceptors.request.use((config) => {
 
     loading = Loading.service({
         background: 'rgba(0, 0, 0, 0.25)',
-        customClass: 'ele-loading'
+        spiner: 'ele-icon-loading',
+        target: document.querySelector(".el-main")
     });
 
 	return config;

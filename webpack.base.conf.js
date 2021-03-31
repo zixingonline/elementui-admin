@@ -104,7 +104,7 @@ module.exports = {
 
     externals: {						// 如果使用CDN引入js文件就放开注释
     	'vue': 'Vue',
-    	// 'vue-router': 'VueRouter',
+    	'vue-router': 'VueRouter',
     	'element-ui': 'ElementUI',		// ELEMENT为CDN引入方式的对象
     },
 

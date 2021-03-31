@@ -4,7 +4,7 @@ const state = {
 	sidebarCollapse: utils.getStorage('sidebarCollapse') == undefined ? 0 : utils.getStorage('sidebarCollapse'),
 	historyRoute: [
 		{
-			name: 'Home',
+			name: 'home',
 			path: '/home',
 			params: {}
 		}
